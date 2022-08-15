@@ -4,7 +4,8 @@
 Стек: JavaScript 
 
 ## Ссылка на репозиторий
-[https://github.com/GalinaKhusnutdinova/movies-explorer-frontend
+[https://github.com/GalinaKhusnutdinova/movies-explorer-frontend]
+[https://www.figma.com/file/runEHLw16OecwgQyVAX1d1/Diploma-(Copy)?node-id=891%3A3857]
 
 ## Директории
 
@@ -18,7 +19,7 @@
 
 ## Cсылка на сайт, размещенный на Яндекс.Облаке:
 
-[домен](movies-lives.nomoredomains.xyz/
+[домен](movies-lives.nomoredomains.xyz/)
 
 # Getting Started with Create React App
 
