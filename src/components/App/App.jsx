@@ -23,21 +23,18 @@ function App() {
           <Main />
         </Route>
         <Route path="/movies">
-          <Navigation />
           <HeaderAuth />
           <Movies />
           <Footer />
         </Route>
         <Route path="/saved-movies">
-          <Navigation />
           <HeaderAuth />
           <SavedMovies />
           <Footer />
         </Route>
         <Route path="/profile">
-          <Navigation />
           <HeaderAuth />
-          <Profile />
+          <Profile isOpen="true" />
         </Route>
         <Route path="/signin">
           <Login />
@@ -46,6 +43,7 @@ function App() {
           <Register />
         </Route>
       </Switch>
+      <Navigation isOpen="false" />
       {/* <Route>
         {(location.pathname === "/movies" || location.pathname === "/movies" ||
           location.pathname === "/saved-movies") && <Footer />}

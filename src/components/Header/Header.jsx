@@ -8,8 +8,8 @@ export default function Header(props) {
   return (
     <>
       <header className="header">
-        <section className="header__conteiner">
-          <Link to="/">
+        <section className={`header__conteiner header__conteiner_${props.name}`}>
+          <Link className="header__link-logo" to="/">
             <img className="header__logo" src={logo} alt="логотип сайта" />
           </Link>
           {props.children}

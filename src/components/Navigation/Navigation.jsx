@@ -4,9 +4,9 @@ import Close from "../../images/close.png"
 
 import "./Navigation.css";
 
-export default function Navigation() {
+export default function Navigation(props) {
   return (
-    <section className="navigation navigation__open">
+    <section className={`navigation ${!props.isOpen && "navigation_open"}`}>
 			<div className="navigation__container">
 				<img src={Close} alt="кнопка закрытия" className="navigation__close" />
       <nav className="navigation__info">

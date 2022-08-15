@@ -13,7 +13,7 @@ export default function Portfolio() {
             target="_blank"
             rel="noreferrer"
           >
-            Статичный сайт <span>&#8599;</span>
+            Статичный сайт <span className="profile__arrow">&#8599;</span>
           </a>
           <div className="portfolio__link-border"></div>
         </li>
@@ -24,7 +24,7 @@ export default function Portfolio() {
             target="_blank"
             rel="noreferrer"
           >
-            Адаптивный сайт <span>&#8599;</span>
+            Адаптивный сайт <span className="profile__arrow">&#8599;</span>
           </a>
           <div className="portfolio__link-border"></div>
         </li>
@@ -35,7 +35,7 @@ export default function Portfolio() {
             target="_blank"
             rel="noreferrer"
           >
-            Одностраничное приложение <span>&#8599;</span>
+            Одностраничное приложение <span className="profile__arrow">&#8599;</span>
           </a>
         </li>
       </ul>

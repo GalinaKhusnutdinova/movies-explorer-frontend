@@ -162,8 +162,8 @@
 
 @media screen and (max-width: 500px) {
   .about-me {
-    padding-left: 18px;
-    padding-right: 18px;
+    padding-left: 14px;
+    padding-right: 14px;
   }
 
   .about-me__container {
@@ -193,7 +193,7 @@
     margin-top: 40px;
   }
   .about-me__link {
-    margin-right: 20px;
+    margin-right: 26px;
   }
 
   .about-me__img {

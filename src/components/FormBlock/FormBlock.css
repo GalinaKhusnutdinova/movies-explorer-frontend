@@ -48,9 +48,15 @@
     border-style: none;
     font-size: 14px;
     line-height: 17px;
-
     border-bottom: 1px solid #e8e8e8;
     padding-bottom: 10px;
+    outline: none;
+}
+
+.register__item:focus {
+    
+    border-bottom: 1px solid #2BE080;;
+    
 }
 
 .register__message {
@@ -58,8 +64,8 @@
     padding: 0;
     font-size: 10px;
     line-height: 12px;
-
     color: #ee3465;
+    padding-top: 6px;
 }
 
 .register__save-button {
@@ -80,7 +86,7 @@
 }
 
 .register__save-button_login {
-    margin-top: 179px;
+    margin-top: 200px;
 }
 
 .register__links {
@@ -128,7 +134,7 @@
     }
 
     .register__save-button_login {
-        margin-top: 267px;
+        margin-top: 289px;
     }
 
     .register__links {

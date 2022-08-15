@@ -3,12 +3,14 @@
 	padding-right: 70px;
 	font-size: 13px;
 	line-height: 16px;
+	background-color: #FAFAFA;
+	padding-top: 79px;
 }
 
 .footer__title {
 	margin: 0 auto;
 	padding: 0;
-	margin-top: 79px;
+	
 	text-align: center;
 	color: #a0a0a0;
 }

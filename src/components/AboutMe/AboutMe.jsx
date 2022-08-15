@@ -5,8 +5,8 @@ import photo from "../../images/photo.jpeg";
 export default function AboutMe() {
   return (
     <section className="about-me">
-      <h2 className="aboutProject__name">Студент</h2>
-      <div className="aboutProject__border"></div>
+      <h2 className="about-project__name">Студент</h2>
+      <div className="about-project__border"></div>
       <article className="about-me__container">
         <div className="about-me__info">
           <h2 className="about-me__name">Галина</h2>

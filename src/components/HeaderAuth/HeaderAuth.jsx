@@ -1,15 +1,15 @@
 import React from "react";
 import "./HeaderAuth.css";
 import Header from "../Header/Header";
-import { Link, NavLink } from "react-router-dom";
-import  Menu from "../../images/icon-main.png"
+import { NavLink } from "react-router-dom";
+import  Menu from "../../images/menu.svg"
 
 export default function HeaderAuth() {
   return (
     <Header>
-			<Link>
-			<img src={Menu} alt="" className="header-auth__menu" />
-			</Link>
+			<button type="submit" className="header__buttonAuth">
+			<img src={Menu} alt="меню" className="header-auth__menu" />
+			</button>
       <nav className="header__info header__info_menu-auth">
         <NavLink to="/movies" className="header__link header__link_auth">
           Фильмы

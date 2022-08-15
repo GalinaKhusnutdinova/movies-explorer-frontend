@@ -1,15 +1,13 @@
 import React from "react";
 import "./FormBlock.css";
 import { Link } from "react-router-dom";
-import logo from "../../images/logo.svg";
+import Header from "../Header/Header";
 
 export default function FormBlock(props) {
   return (
     <>
       <div className="register__container">
-        <Link to="/">
-          <img className="header__logo" src={logo} alt="логотип сайта" />
-        </Link>
+        <Header name="register"/>
         <h3 className="register__title">{props.title}</h3>
         <form
           method="get"

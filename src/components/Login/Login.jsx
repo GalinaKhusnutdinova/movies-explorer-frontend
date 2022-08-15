@@ -5,7 +5,7 @@ import './Login.css';
 
 export default function Login() {
   return (
-      <section className="register login ">
+      <section className="register">
         <FromBlock
           title="Рады видеть!"
           formName="login"
