@@ -1,3 +1,27 @@
+# Проект Movies-lives фронтенд
+
+Фронтен для проекта Movies-lives, написанный на react.js.
+Стек: JavaScript 
+
+## Ссылка на репозиторий
+[https://github.com/GalinaKhusnutdinova/movies-explorer-frontend]
+
+[https://www.figma.com/file/runEHLw16OecwgQyVAX1d1/Diploma-(Copy)?node-id=891%3A3857]
+
+## Директории
+
+`/images` — папка с файлами с картинками  
+`/components` — папка с JS и CSS-файлами компонентов   
+`/fonts` — со шрифтами  
+
+директория images/ с картинками, / 3.38
+директория components/ с JS и CSS-файлами компонентов, / 3.38
+директория fonts/ со шрифтами. / 3.38
+
+## Cсылка на сайт, размещенный на Яндекс.Облаке:
+
+[домен](movies-lives.nomoredomains.xyz/)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
