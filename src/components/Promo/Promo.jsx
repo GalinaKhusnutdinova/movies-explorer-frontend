@@ -1,14 +1,15 @@
 import React from "react";
 import './Promo.css';
 // import logo from "../../images/logo.svg";
-import Header from "../Header/Header";
+// import Header from "../Header/Header";
+// import { NavLink } from "react-router-dom";
+
 import img from "../../images/IMG.svg";
-import { NavLink } from "react-router-dom";
 
 export default function Promo() {
   return (
     <section className="promo">
-      <Header>
+      {/* <Header>
         <nav className="header__info">
           <NavLink to="/signup" className="header__link">
             Регистрация
@@ -17,7 +18,7 @@ export default function Promo() {
             Войти
           </NavLink>
         </nav>
-      </Header>
+      </Header> */}
       <div className="promo__baner" >
         <h1 className="promo__title" >Учебный проект студента факультета Веб-разработки.</h1>
         <img className="promo__img"  src={img} alt="Картинка спираль" />

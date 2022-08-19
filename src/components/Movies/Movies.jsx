@@ -11,7 +11,7 @@ import './Movies.css';
 export default function Movies() {
   const isClick = false;
   return (
-    <section className='movies'>
+    <main className='movies'>
       <SearchForm />
       <Preloader isOpen="true"/>
       <MoviesCardList>
@@ -66,7 +66,7 @@ export default function Movies() {
         <button type='button' className='movies__button'>Ещё</button>
       </div>
       
-    </section>
+    </main>
   )
 }
 

@@ -4,8 +4,8 @@ import "./Techs.css";
 export default function Techs() {
   return (
     <section className="techs">
-      <h2 className="aboutProject__name techs__name">Технологии</h2>
-      <div className="aboutProject__border"></div>
+      <h2 className="about-project__name techs__name">Технологии</h2>
+      <div className="about-project__border"></div>
       <h3 className="techs__title">7 технологий</h3>
       <p className="techs__subtitle">
         На курсе веб-разработки мы освоили технологии, которые применили в

@@ -11,6 +11,10 @@
 	align-items: center;
 }
 
+.search-form__form:focus-within {
+	border: 1px solid #2BE080;
+}
+
 .search-form__label {
 	width: 80%;
 	padding-left: 25px;
@@ -70,7 +74,6 @@
 @media screen and (max-width: 500px) {
 	.search-form__form {
 		min-height: 56px;
-		border-top-style: none;
 	}
 
 	.search-form {

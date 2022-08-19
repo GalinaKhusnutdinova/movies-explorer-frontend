@@ -1,4 +1,5 @@
 .footer {
+	padding: 79px 70px 20px;
 	padding-left: 70px;
 	padding-right: 70px;
 	font-size: 13px;
@@ -24,7 +25,7 @@
 .footer__info {
 	display: flex;
 	justify-content: space-between;
-	margin: 20px auto;
+	margin: 20px auto 0;
 }
 
 .footer__links {
@@ -62,6 +63,7 @@
 	.footer {
 		padding-left: 10px;
 		padding-right: 10px;
+		padding-bottom: 10px;
 		font-size: 12px;
 		line-height: 15px;
 	}

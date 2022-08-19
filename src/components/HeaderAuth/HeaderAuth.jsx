@@ -6,7 +6,7 @@ import  Menu from "../../images/menu.svg"
 
 export default function HeaderAuth() {
   return (
-    <Header>
+    <Header name="auth">
 			<button type="submit" className="header__buttonAuth">
 			<img src={Menu} alt="меню" className="header-auth__menu" />
 			</button>
