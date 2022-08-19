@@ -1,0 +1,144 @@
+.register {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    /* margin-top: 70px; */
+    /* margin-bottom: 70px; */
+    /* align-content: center; */
+    align-items: center;
+}
+.register__container {
+    max-width: 396px;
+    width: 100%;
+}
+
+.register__title {
+    margin: 0;
+    padding: 0;
+    margin-top: 40px;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.register__form {
+    margin-top: 40px;
+    display: grid;
+    gap: 24px;
+    grid-template-rows: 44px 44px 44px;
+    text-align: left;
+}
+
+.register__form_login {
+    grid-template-rows: 44px 44px;
+}
+
+.register__label {
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 5px;
+    font-size: 10px;
+    line-height: 12px;
+    color: #a0a0a0;
+}
+.register__item {
+    padding: 0;
+    margin: 0;
+    border-style: none;
+    font-size: 14px;
+    line-height: 17px;
+    border-bottom: 1px solid #e8e8e8;
+    padding-bottom: 10px;
+    outline: none;
+}
+
+.register__item:focus {
+    
+    border-bottom: 1px solid #2BE080;;
+    
+}
+
+.register__message {
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+    line-height: 12px;
+    color: #ee3465;
+    padding-top: 6px;
+}
+
+.register__save-button {
+    padding: 0;
+    margin: 0;
+    margin: 134px auto 16px;
+    border-style: none;
+    background-color: #2be080;
+    border-radius: 3px;
+    width: 100%;
+    max-width: 396px;
+    height: 45px;
+    color: #ffffff;
+    text-align: center;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.register__save-button_login {
+    margin-top: 200px;
+}
+
+.register__links {
+    display: flex;
+    justify-content: center;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+.register__subtitle {
+    padding: 0;
+    margin: 0;
+    color: #a0a0a0;
+    padding-right: 6px;
+}
+
+.register__link {
+    text-decoration: none;
+    color: #2be080;
+}
+
+.register__link:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 500px) {
+    .register__container {
+        max-width: 260px;
+        text-align: center;
+    }
+
+    .register__title {
+        margin-top: 50px;
+    }
+
+    .register__form {
+        margin-top: 80px;
+    }
+
+    .register__save-button {
+        margin: 222px auto 14px;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .register__save-button_login {
+        margin-top: 289px;
+    }
+
+    .register__links {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
