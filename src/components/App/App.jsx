@@ -1,54 +1,328 @@
 // import logo from '../../logo.svg';
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Switch, Route, useHistory } from "react-router-dom";
 import Main from "../Main/Main.jsx";
-// import Header from "../Header/Header";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import Footer from "../Footer/Footer";
+import ErrorNotFound from "../ErrorNotFound/ErrorNotFound";
 import "./App.css";
 import HeaderAuth from "../HeaderAuth/HeaderAuth";
 import Navigation from "../Navigation/Navigation.jsx";
+import * as moviesAuth from "../../utils/MoviesAuth";
+import { mainApi } from "../../utils/MainApi";
+import { moviesApi } from "../../utils/MoviesApi";
+import HeaderNoAuth from "../HeaderNoAuth/HeaderNoAuth.jsx";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 // const location = document.location;
 
 function App() {
+  const [isHeaderAuthOpen, setIsHeaderAuthOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [movies, setMovies] = useState([]);
+  const [filterMovies, setFilterMovies] = useState([]);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState();
+  const [isEditProfile, setIsEditProfile] = useState(false);
+  const [disabled, setDisabled] = useState("disabled");
+  const [textOpen, setTextOpen] = useState("false");
+  const [filterMessage, setFilterMessage] = useState([]);
+  const [profileMessage, setProfileMessage] = useState("");
+  const [registerMessage, setRegisterMessage] = useState("");
+  const [isRegistMessage, setIsRegistMessage] = useState(false);
+  const [loginMessage, setLoginMessage] = useState("");
+  const [isLoginMessage, setIsLoginMessage] = useState(false);
+  const [isPreloaderOpen, setIsPreloaderOpen] = useState(false);
+  const [buttomMoviesMore, setButtomMoviesMore] = useState(false);
+  const [saveMovies, setSaveMovies] = useState({});
+
+  // const location = document.location;
+  const history = useHistory();
+  useEffect(() => {
+    if (loggedIn) {
+      mainApi
+        .getProfile()
+        .then((useData) => {
+          setCurrentUser(useData);
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
+        });
+    }
+
+    console.log(111);
+  }, [loggedIn]);
+
+  useEffect(() => {
+    updateFilterMessage();
+    updateRegisterMessage();
+    console.log(222);
+  }, []);
+
+  function updateFilterMessage() {
+    setTextOpen("false");
+    setFilterMessage("");
+  }
+
+  function updateRegisterMessage() {
+    setRegisterMessage("");
+    setLoginMessage("");
+  }
+
+  function handleGetMovies(keyValue) {
+    setIsPreloaderOpen(true);
+    updateFilterMessage();
+    setButtomMoviesMore(false);
+
+    if (keyValue.length === 0) {
+      setTextOpen("true");
+      setFilterMessage("«Нужно ввести ключевое слово»");
+      setIsPreloaderOpen(false);
+    } else {
+      moviesApi
+        .getMovies()
+        .then((data) => {
+          let serialObj = JSON.stringify(data); //сериализуем obj
+          localStorage.setItem("movies", serialObj); //запишем его в хранилище по ключу
+          let returnObj = JSON.parse(localStorage.getItem("movies")); //спарсим его обратно объект
+          setMovies(returnObj);
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
+          setTextOpen("true");
+          setFilterMessage(
+            "«Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз»"
+          );
+          setIsPreloaderOpen(false);
+        });
+
+      handleFilterFilm(keyValue);
+    }
+  }
+
+  function handleFilterFilm(keyValue) {
+    const filmsFilter = movies.filter((item) => {
+      return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
+    });
+
+    if (filmsFilter.length === 0) {
+      setTextOpen("true");
+      setFilterMessage("«Ничего не найдено»");
+    }
+    if (filmsFilter.length > 3) {
+      setButtomMoviesMore(true);
+    }
+    setIsPreloaderOpen(false);
+    let serialObj = JSON.stringify(filmsFilter); //сериализуем obj
+    localStorage.setItem("filmsFilter", serialObj); //запишем его в хранилище по ключу
+    let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарсим его обратно объект
+    setFilterMovies(returnObj);
+  }
+
+  function handleUpdateUser(data) {
+    mainApi
+      .editProfile(data)
+      .then((res) => {
+        setCurrentUser(res);
+        setUserData(res);
+        setIsEditProfile(false);
+        setDisabled("disabled");
+      })
+      .catch((err) => {
+        setProfileMessage(err.message);
+        console.log(err);
+      });
+
+    setProfileMessage("");
+  }
+
+  function handleEditPrifile() {
+    setIsEditProfile(true);
+    setDisabled(null);
+  }
+
+  function hendleHeaderAuthClick() {
+    setIsHeaderAuthOpen(true);
+  }
+
+  function closeHeaderMenu() {
+    setIsHeaderAuthOpen(false);
+  }
+
+  function handleMoviesSaveDelite(film) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isSave = Object.keys(film).includes(
+      (owner) => owner === currentUser._id
+    );
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    const request = isSave
+      ? mainApi.deleteSave(film.id)
+      : mainApi.addSave(film);
+    request
+      .then((newMovies) => {
+        console.log("filterMovies", filterMovies);
+        setSaveMovies(
+          filterMovies.map((c) => (c.movieId === film.id ? newMovies : c))
+        );
+      })
+      .catch((res) => {
+        console.log(res);
+      });
+  }
+
+  const handleRegister = ({ name, email, password }) => {
+    updateRegisterMessage();
+
+    return moviesAuth
+      .register(name, email, password)
+      .then((res) => {
+        if (res) {
+          history.push("/signin");
+        }
+      })
+      .catch((err) => {
+        setRegisterMessage(err.message);
+        setIsRegistMessage(true);
+        console.log(err);
+      });
+  };
+
+  const handleLogin = ({ email, password }) => {
+    updateRegisterMessage();
+    return moviesAuth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          tokenCheck();
+        }
+        setLoginMessage("");
+      })
+      .catch((err) => {
+        setLoginMessage(err.message);
+        setIsLoginMessage(true);
+        console.log(err);
+      });
+  };
+
+  const tokenCheck = () => {
+    if (localStorage.getItem("token")) {
+      let token = localStorage.getItem("token");
+
+      moviesAuth
+        .getContent(token)
+        .then((res) => {
+          if (res) {
+            let userData = {
+              name: res.name,
+              email: res.email,
+            };
+
+            setLoggedIn(true);
+            setUserData(userData);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const singOut = () => {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+    setUserData(null);
+    localStorage.removeItem("movies");
+    history.push("/signin");
+  };
+
+  useEffect(() => {
+    tokenCheck();
+    console.log(333);
+  }, []);
+
+  useEffect(() => {
+    if (loggedIn) {
+      history.push("/");
+    }
+    console.log(444);
+  }, [loggedIn, history]);
+
   return (
-    <div className="page">
-      <Switch>
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route path="/movies">
-          <HeaderAuth />
-          <Movies />
-          <Footer />
-        </Route>
-        <Route path="/saved-movies">
-          <HeaderAuth />
-          <SavedMovies />
-          <Footer />
-        </Route>
-        <Route path="/profile">
-          <HeaderAuth />
-          <Profile isOpen="true" />
-        </Route>
-        <Route path="/signin">
-          <Login />
-        </Route>
-        <Route path="/signup">
-          <Register />
-        </Route>
-      </Switch>
-      <Navigation isOpen="false" />
-      {/* <Route>
-        {(location.pathname === "/movies" || location.pathname === "/movies" ||
-          location.pathname === "/saved-movies") && <Footer />}
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className="page">
+        <Switch>
+          <Route exact path="/">
+            {loggedIn ? (
+              <HeaderAuth
+                name="auth-main"
+                onHeaderAuth={hendleHeaderAuthClick}
+              />
+            ) : (
+              <HeaderNoAuth />
+            )}
+            <Main />
+          </Route>
+          <Route path="/movies">
+            <HeaderAuth name="auth" onHeaderAuth={hendleHeaderAuthClick} />
+            <Movies
+              message={filterMessage}
+              textOpen={textOpen}
+              onGetMovies={handleGetMovies}
+              filterMovies={filterMovies}
+              isOpen={isPreloaderOpen}
+              buttomMoviesMore={buttomMoviesMore}
+              onMoviesClickSave={handleMoviesSaveDelite}
+            />
+            <Footer />
+          </Route>
+          <Route path="/saved-movies">
+            <HeaderAuth name="auth" onHeaderAuth={hendleHeaderAuthClick} />
+            <SavedMovies saveMovies={saveMovies} filterMovies={filterMovies} />
+            <Footer name="saved" />
+          </Route>
+          <Route path="/profile">
+            <HeaderAuth name="auth" onHeaderAuth={hendleHeaderAuthClick} />
+            <Profile
+              onUpdateUser={handleUpdateUser}
+              isOpen={isEditProfile}
+              userData={userData}
+              singOut={singOut}
+              handleEditPrifile={handleEditPrifile}
+              disabled={disabled}
+              profileMessage={profileMessage}
+            />
+          </Route>
+          <Route path="/signin">
+            <Login
+              isOpen={isLoginMessage}
+              message={loginMessage}
+              handleLogin={handleLogin}
+            />
+          </Route>
+          <Route path="/signup">
+            <Register
+              isOpen={isRegistMessage}
+              message={registerMessage}
+              handleRegister={handleRegister}
+            />
+          </Route>
+          <Route path="*">
+            <ErrorNotFound />
+          </Route>
+        </Switch>
+        <Navigation isOpen={isHeaderAuthOpen} onClose={closeHeaderMenu} />
+        {/* <Route>
+        {(loggedIn && <Footer />}
       </Route> */}
-    </div>
+      </div>
+    </CurrentUserContext.Provider>
   );
 }
 

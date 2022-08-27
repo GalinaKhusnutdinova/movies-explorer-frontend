@@ -6,6 +6,7 @@
     /* margin-bottom: 70px; */
     /* align-content: center; */
     align-items: center;
+    flex-direction: column;
 }
 .register__container {
     max-width: 396px;
