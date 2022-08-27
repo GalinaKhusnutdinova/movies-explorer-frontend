@@ -105,6 +105,18 @@ function App() {
     }
   }
 
+  function handleGetSaveMovies() {
+    mainApi
+    .getSaveMovies()
+    .then((data) => {
+      console.log("save",data)
+      setSaveMovies(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
   function handleFilterFilm(keyValue) {
     const filmsFilter = movies.filter((item) => {
       return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
@@ -176,28 +188,12 @@ function App() {
       });
   }
 
-  const handleRegister = ({ name, email, password }) => {
-    updateRegisterMessage();
-
-    return moviesAuth
-      .register(name, email, password)
-      .then((res) => {
-        if (res) {
-          history.push("/signin");
-        }
-      })
-      .catch((err) => {
-        setRegisterMessage(err.message);
-        setIsRegistMessage(true);
-        console.log(err);
-      });
-  };
-
   const handleLogin = ({ email, password }) => {
     updateRegisterMessage();
     return moviesAuth
       .authorize(email, password)
       .then((data) => {
+        console.log("логин");
         if (data.token) {
           localStorage.setItem("token", data.token);
           tokenCheck();
@@ -207,6 +203,22 @@ function App() {
       .catch((err) => {
         setLoginMessage(err.message);
         setIsLoginMessage(true);
+        console.log(err);
+      });
+  };
+
+  const handleRegister = ({ name, email, password }) => {
+    updateRegisterMessage();
+
+    return moviesAuth
+      .register(name, email, password)
+      .then(() => {
+        handleLogin({ email, password });
+        setRegisterMessage("");
+      })
+      .catch((err) => {
+        setRegisterMessage(err.message);
+        setIsRegistMessage(true);
         console.log(err);
       });
   };
@@ -250,6 +262,7 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       history.push("/");
+      handleGetSaveMovies();
     }
     console.log(444);
   }, [loggedIn, history]);

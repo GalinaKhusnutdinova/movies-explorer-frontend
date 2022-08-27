@@ -21,6 +21,14 @@ class MainApi {
     }).then(this._checkResponse);
   }
 
+  // 
+  getSaveMovies() {
+    return fetch(this._settings.baseUrl + "/movies", {
+      headers: this._headersJwt(),
+      credentials: "include",
+    }).then(this._checkResponse);
+  }
+
   // addNewCard(item) {
   //   return fetch(this._settings.baseUrl + "/cards", {
   //     method: "POST",
@@ -51,7 +59,7 @@ class MainApi {
       method: "POST",
       headers: this._headersJwt(),
       body: JSON.stringify({
-        country: data.country || '',
+        country: data.country || ' ',
         director: data.director,
         duration: data.duration,
         year: data.year,

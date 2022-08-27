@@ -14,22 +14,20 @@ export default function Movies(props) {
   const [numberFilmsMore, setNumberFilmsMore] = useState(
     renderNumberFilm(windowWidth)
   );
-  const [isSave,setIsSave] = useState('')
+  const [isSave, setIsSave] = useState("");
 
   function clickMoreMoies() {
     setNumberFilmsMore(numberFilmsMore + clickMoreMovies(windowWidth));
   }
   function handleCliclSaveButton(isSave, film) {
-    setIsSave(isSave)
-    // console.log('111',isSave)
-    // console.log('222',film)
+    setIsSave(isSave);
     props.onMoviesClickSave(film);
   }
 
   const filmSaveButtonClassName = `card__button card__button${
     isSave && "_active"
   }`;
-  const filmTextSaveButtonClassName = `${isSave ? "" : "Сохранить"}`
+  const filmTextSaveButtonClassName = `${isSave ? "" : "Сохранить"}`;
 
   return (
     <main>
@@ -39,13 +37,19 @@ export default function Movies(props) {
         <Preloader isOpen={props.isOpen} />
         <MoviesCardList>
           {props.filterMovies.slice(0, numberFilmsMore).map((film) => (
-            <MoviesCard  handleCliclSaveButton ={handleCliclSaveButton} film={film} key={film._id}>
+            <MoviesCard
+              handleCliclSaveButton={handleCliclSaveButton}
+              film={film}
+              key={film.id}
+            >
               <button
                 onClick={handleCliclSaveButton}
                 type="button"
                 aria-label="сохранить"
                 className={filmSaveButtonClassName}
-              >{filmTextSaveButtonClassName}</button>
+              >
+                {filmTextSaveButtonClassName}
+              </button>
             </MoviesCard>
           ))}
         </MoviesCardList>
