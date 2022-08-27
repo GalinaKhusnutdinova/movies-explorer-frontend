@@ -109,7 +109,6 @@ function App() {
     mainApi
     .getSaveMovies()
     .then((data) => {
-      console.log("save",data)
       setSaveMovies(data);
     })
     .catch((err) => {
@@ -178,7 +177,6 @@ function App() {
       : mainApi.addSave(film);
     request
       .then((newMovies) => {
-        console.log("filterMovies", filterMovies);
         setSaveMovies(
           filterMovies.map((c) => (c.movieId === film.id ? newMovies : c))
         );
@@ -193,7 +191,6 @@ function App() {
     return moviesAuth
       .authorize(email, password)
       .then((data) => {
-        console.log("логин");
         if (data.token) {
           localStorage.setItem("token", data.token);
           tokenCheck();
@@ -292,6 +289,7 @@ function App() {
               isOpen={isPreloaderOpen}
               buttomMoviesMore={buttomMoviesMore}
               onMoviesClickSave={handleMoviesSaveDelite}
+              saveMovies={saveMovies}
             />
             <Footer />
           </Route>

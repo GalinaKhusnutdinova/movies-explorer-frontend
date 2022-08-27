@@ -8,26 +8,22 @@ import TextMessage from "../TextMessage/TextMessage";
 import { useState } from "react";
 import { clickMoreMovies, renderNumberFilm } from "../../utils/setNamberMovies";
 // import SavedMovies from "../SavedMovies/SavedMovies";
+import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 export default function Movies(props) {
+  const currentUser = React.useContext(CurrentUserContext);
   const windowWidth = window.innerWidth;
   const [numberFilmsMore, setNumberFilmsMore] = useState(
     renderNumberFilm(windowWidth)
   );
-  const [isSave, setIsSave] = useState("");
 
   function clickMoreMoies() {
     setNumberFilmsMore(numberFilmsMore + clickMoreMovies(windowWidth));
   }
-  function handleCliclSaveButton(isSave, film) {
-    setIsSave(isSave);
+
+  function handleCliclSaveButton( film ) {
     props.onMoviesClickSave(film);
   }
-
-  const filmSaveButtonClassName = `card__button card__button${
-    isSave && "_active"
-  }`;
-  const filmTextSaveButtonClassName = `${isSave ? "" : "Сохранить"}`;
 
   return (
     <main>
@@ -36,22 +32,23 @@ export default function Movies(props) {
         <TextMessage isOpen={props.textOpen} message={props.message} />
         <Preloader isOpen={props.isOpen} />
         <MoviesCardList>
-          {props.filterMovies.slice(0, numberFilmsMore).map((film) => (
-            <MoviesCard
-              handleCliclSaveButton={handleCliclSaveButton}
-              film={film}
-              key={film.id}
-            >
-              <button
-                onClick={handleCliclSaveButton}
-                type="button"
-                aria-label="сохранить"
-                className={filmSaveButtonClassName}
-              >
-                {filmTextSaveButtonClassName}
-              </button>
-            </MoviesCard>
-          ))}
+          {props.filterMovies.slice(0, numberFilmsMore).map((film) => {
+            const isSave = Object.keys(film).includes(
+              (owner) => owner === currentUser._id
+            );
+            return (
+              <MoviesCard film={film} key={film.id}>
+                <button
+                  onClick={() => handleCliclSaveButton(isSave, film)}
+                  type="button"
+                  aria-label="сохранить"
+                  className={`card__button card__button${isSave && "_active"}`}
+                >
+                  {`${isSave ? "" : "Сохранить"}`}
+                </button>
+              </MoviesCard>
+            );
+          })}
         </MoviesCardList>
         <div
           className={`movies__more movies__more_${
