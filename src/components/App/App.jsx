@@ -40,8 +40,8 @@ function App() {
   const [isPreloaderOpen, setIsPreloaderOpen] = useState(false);
   const [buttomMoviesMore, setButtomMoviesMore] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
-  const [likeButtonSaved, setLikeButtonSaved] = useState("false");
-  const [filmsSaveFilter, setFilmsSaveFilter] = useState(savedMovies);
+  // const [likeButtonSaved, setLikeButtonSaved] = useState("false");
+  const [filmsSaveFilter, setFilmsSaveFilter] = useState([]);
 
   // const location = document.location;
   const history = useHistory();
@@ -90,7 +90,7 @@ function App() {
       setFilterMessage("«Нужно ввести ключевое слово»");
       setFilmsSaveFilter([])
     }
-    
+
     setIsPreloaderOpen(false);
     setFilmsSaveFilter(filmsSaveFilter);
   }
@@ -331,7 +331,7 @@ function App() {
               buttomMoviesMore={buttomMoviesMore}
               onMoviesClickSave={handleMoviesSaveDelite}
               savedMovies={savedMovies}
-              likeButtonSaved={likeButtonSaved}
+              // likeButtonSaved={likeButtonSaved}
             />
             <Footer />
           </Route>
@@ -344,6 +344,8 @@ function App() {
               filmsSaveFilter={filmsSaveFilter}
               message={filterMessage}
               textOpen={textOpen}
+              setFilmsSaveFilter ={setFilmsSaveFilter}
+              isOpen={isPreloaderOpen}
             />
             <Footer name="saved" />
           </Route>
