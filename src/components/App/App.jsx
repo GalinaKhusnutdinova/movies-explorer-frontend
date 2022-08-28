@@ -39,9 +39,9 @@ function App() {
   const [isLoginMessage, setIsLoginMessage] = useState(false);
   const [isPreloaderOpen, setIsPreloaderOpen] = useState(false);
   const [buttomMoviesMore, setButtomMoviesMore] = useState(false);
-  const [savedMovies, setSavedMovies] = useState({});
+  const [savedMovies, setSavedMovies] = useState([]);
   const [likeButtonSaved, setLikeButtonSaved] = useState("false");
-  const [filmsSaveFilter, setFilmsSaveFilter] = useState({});
+  const [filmsSaveFilter, setFilmsSaveFilter] = useState(savedMovies);
 
   // const location = document.location;
   const history = useHistory();
@@ -82,12 +82,15 @@ function App() {
     if (filmsSaveFilter.length === 0) {
       setTextOpen("true");
       setFilterMessage("«Ничего не найдено»");
+      setFilmsSaveFilter([])
     }
 
     if (keyValue === "") {
       setTextOpen("true");
       setFilterMessage("«Нужно ввести ключевое слово»");
+      setFilmsSaveFilter([])
     }
+    
     setIsPreloaderOpen(false);
     setFilmsSaveFilter(filmsSaveFilter);
   }
