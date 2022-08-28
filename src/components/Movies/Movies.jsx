@@ -8,21 +8,26 @@ import TextMessage from "../TextMessage/TextMessage";
 import { useState } from "react";
 import { clickMoreMovies, renderNumberFilm } from "../../utils/setNamberMovies";
 // import SavedMovies from "../SavedMovies/SavedMovies";
-import { CurrentUserContext } from "../../context/CurrentUserContext";
+// import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 export default function Movies(props) {
-  const currentUser = React.useContext(CurrentUserContext);
+  // const currentUser = React.useContext(CurrentUserContext);
   const windowWidth = window.innerWidth;
   const [numberFilmsMore, setNumberFilmsMore] = useState(
     renderNumberFilm(windowWidth)
   );
 
+  // const [isSaved, setIsSaved] =useState('')
+
   function clickMoreMoies() {
     setNumberFilmsMore(numberFilmsMore + clickMoreMovies(windowWidth));
   }
 
-  function handleCliclSaveButton( film ) {
+  function handleCliclSaveButton(film) {
+    console.log(film);
     props.onMoviesClickSave(film);
+    // isSaved = isSaved ? false : true
+
   }
 
   return (
@@ -33,18 +38,20 @@ export default function Movies(props) {
         <Preloader isOpen={props.isOpen} />
         <MoviesCardList>
           {props.filterMovies.slice(0, numberFilmsMore).map((film) => {
-            const isSave = Object.keys(film).includes(
-              (owner) => owner === currentUser._id
-            );
+            const isSaved = props.savedMovies.some((savedMovie) => {
+              return savedMovie.movieId === film.id
+                ? (film._id = savedMovie._id)
+                : "";
+            });
             return (
-              <MoviesCard film={film} key={film.id}>
+              <MoviesCard film={film} key={film.id} images={film.image.url}>
                 <button
-                  onClick={() => handleCliclSaveButton(isSave, film)}
+                  onClick={() => handleCliclSaveButton(film)}
                   type="button"
                   aria-label="сохранить"
-                  className={`card__button card__button${isSave && "_active"}`}
+                  className={`card__button card__button${isSaved && "_active"}`}
                 >
-                  {`${isSave ? "" : "Сохранить"}`}
+                  {`${isSaved ? "" : "Сохранить"}`}
                 </button>
               </MoviesCard>
             );

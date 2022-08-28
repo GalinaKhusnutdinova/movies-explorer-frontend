@@ -1,9 +1,12 @@
 .card {
-	max-width: 360px;
-	min-width: 300px;
-	background-color: #fdfdfd;
-	box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
-	border-radius: 6px;
+	display: flex;
+    max-width: 360px;
+    min-width: 300px;
+    min-height: 319px;
+    background-color: #fdfdfd;
+    box-shadow: 0px 4px 30px rgb(0 0 0 / 8%);
+    border-radius: 6px;
+    flex-direction: column;
 }
 
 .card__info {

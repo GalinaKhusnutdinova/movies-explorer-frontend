@@ -40,12 +40,12 @@ class MainApi {
   //   }).then(this._checkResponse);
   // }
   // //qq
-  // deleteCard(id) {
-  //   return fetch(this._settings.baseUrl + "/cards/" + id, {
-  //     method: "DELETE",
-  //     headers: this._headersJwt(),
-  //   }).then(this._checkResponse);
-  // }
+  deleteMovies(id) {
+    return fetch(this._settings.baseUrl + "/movies/" + id, {
+      method: "DELETE",
+      headers: this._headersJwt(),
+    }).then(this._checkResponse);
+  }
   //qq
   deleteSave(id) {
     return fetch(this._settings.baseUrl + "/movies/" + id, {
@@ -64,7 +64,7 @@ class MainApi {
         duration: data.duration,
         year: data.year,
         description: data.description,
-        image: data.image.url, 
+        image: data.image.url || "",
         trailerLink: data.trailerLink,
         nameRU: data.nameRU || "",
         nameEN: data.nameEN || "",

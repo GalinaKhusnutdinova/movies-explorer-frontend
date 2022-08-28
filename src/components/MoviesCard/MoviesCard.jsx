@@ -4,9 +4,10 @@ import "./MoviesCard.css";
 // import { useEffect } from "react";
 // import movies from "../../images/movies.png";
 
-export default function MoviesCard({film, children, handleCliclSaveButton}) {
+export default function MoviesCard({film, children, images}) {
 
-  let filmUrl = `https://api.nomoreparties.co${film.image.url || ''}`;
+  // console.log('lololololo', film)
+  let filmUrl = `https://api.nomoreparties.co${images || ""}`;
 
   return (
     <div className="card">
