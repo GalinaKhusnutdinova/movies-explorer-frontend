@@ -2,10 +2,11 @@ import React from "react";
 
 import "./FilterCheckbox.css";
 
-export default function FilterCheckbox() {
+export default function FilterCheckbox(props) {
   return (
     <>
       <input
+      onChange={props.changeCheckbox}
         type="checkbox"
         className="custom-checkbox"
         id="short"

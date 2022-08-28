@@ -5,7 +5,6 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
 export default function SearchForm(props) {
-  console.log('props', props)
   const [keyValue, setKeyValue] = useState("");
 
   function handleChangeName(e) {
@@ -51,7 +50,7 @@ export default function SearchForm(props) {
         </button>
       </form>
       <div className="search-form__filter">
-        <FilterCheckbox />
+        <FilterCheckbox changeCheckbox={props.changeCheckbox} />
       </div>
     </div>
   );

@@ -15,10 +15,12 @@ export default function SavedMovies({
   textOpen,
   setFilmsSaveFilter,
   isOpen,
+  changeCheckboxSaved
 }) {
   function handleDelete(film) {
     handleMoviesDelete(film);
   }
+
   useEffect(() => {
     setFilmsSaveFilter(savedMovies);
   }, [savedMovies, setFilmsSaveFilter]);
@@ -32,6 +34,7 @@ export default function SavedMovies({
       <SearchForm
         filtetrue="true"
         filterSavedMoviesClick={filterSavedMoviesClick}
+        changeCheckbox={changeCheckboxSaved}
       />
       <TextMessage isOpen={textOpen} message={message} />
       <Preloader isOpen={isOpen} />

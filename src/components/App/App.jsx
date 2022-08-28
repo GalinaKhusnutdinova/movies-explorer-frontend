@@ -32,6 +32,8 @@ function App() {
   const [disabled, setDisabled] = useState("disabled");
   const [textOpen, setTextOpen] = useState("false");
   const [filterMessage, setFilterMessage] = useState([]);
+  const [filterMessageSaved, setFilterMessageSaved] = useState([]);
+
   const [profileMessage, setProfileMessage] = useState("");
   const [registerMessage, setRegisterMessage] = useState("");
   const [isRegistMessage, setIsRegistMessage] = useState(false);
@@ -40,8 +42,10 @@ function App() {
   const [isPreloaderOpen, setIsPreloaderOpen] = useState(false);
   const [buttomMoviesMore, setButtomMoviesMore] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
-  // const [likeButtonSaved, setLikeButtonSaved] = useState("false");
   const [filmsSaveFilter, setFilmsSaveFilter] = useState([]);
+  const [checkboxStatusMovies, setCheckboxStatusMovies] = useState(false);
+  const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] = useState(false);
+
 
   // const location = document.location;
   const history = useHistory();
@@ -66,6 +70,7 @@ function App() {
   function updateFilterMessage() {
     setTextOpen("false");
     setFilterMessage("");
+    setFilterMessageSaved("");
   }
 
   function updateRegisterMessage() {
@@ -81,18 +86,30 @@ function App() {
 
     if (filmsSaveFilter.length === 0) {
       setTextOpen("true");
-      setFilterMessage("«Ничего не найдено»");
-      setFilmsSaveFilter([])
+      setFilterMessageSaved("«Ничего не найдено»");
+      setFilmsSaveFilter([]);
     }
 
     if (keyValue === "") {
       setTextOpen("true");
-      setFilterMessage("«Нужно ввести ключевое слово»");
-      setFilmsSaveFilter([])
+      setFilterMessageSaved("«Нужно ввести ключевое слово»");
+      setFilmsSaveFilter([]);
     }
 
     setIsPreloaderOpen(false);
-    setFilmsSaveFilter(filmsSaveFilter);
+console.log('filmsSaveFilter',filmsSaveFilter)
+    if (checkboxStatusSavedMovies) {
+      setFilmsSaveFilter(filterMoviesCheckbox(filmsSaveFilter));
+    } else {
+      setFilmsSaveFilter(filmsSaveFilter);
+    }
+  
+  }
+
+  function saveLocalCheckStatusStart() {
+    localStorage.setItem("movies", checkboxStatusMovies); //запишем его в хранилище по ключу
+    let returnObj = JSON.parse(localStorage.getItem("movies")); //спарсим его обратно объект
+    setCheckboxStatusMovies(returnObj);
   }
 
   function handleGetMovies(keyValue) {
@@ -101,6 +118,7 @@ function App() {
     setButtomMoviesMore(false);
 
     if (keyValue.length === 0) {
+      console.log("handleGetMovies");
       setTextOpen("true");
       setFilterMessage("«Нужно ввести ключевое слово»");
       setIsPreloaderOpen(false);
@@ -112,6 +130,7 @@ function App() {
           localStorage.setItem("movies", serialObj); //запишем его в хранилище по ключу
           let returnObj = JSON.parse(localStorage.getItem("movies")); //спарсим его обратно объект
           setMovies(returnObj);
+          saveLocalCheckStatusStart();
         })
         .catch((err) => {
           console.log("Error: ", err);
@@ -138,11 +157,13 @@ function App() {
   }
 
   function handleFilterFilm(keyValue) {
+    setFilterMessageSaved();
     const filmsFilter = movies.filter((item) => {
       return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
     });
 
     if (filmsFilter.length === 0) {
+      console.log("handleFilterFilm");
       setTextOpen("true");
       setFilterMessage("«Ничего не найдено»");
     }
@@ -153,22 +174,33 @@ function App() {
     let serialObj = JSON.stringify(filmsFilter); //сериализуем obj
     localStorage.setItem("filmsFilter", serialObj); //запишем его в хранилище по ключу
     let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарсим его обратно объект
-    setFilterMovies(returnObj);
+    if (checkboxStatusMovies) {
+      setFilterMovies(filterMoviesCheckbox(filterMovies));
+    } else {
+      setFilterMovies(returnObj);
+    }
   }
 
   function handleUpdateUser(data) {
-    mainApi
-      .editProfile(data)
-      .then((res) => {
-        setCurrentUser(res);
-        setUserData(res);
-        setIsEditProfile(false);
-        setDisabled("disabled");
-      })
-      .catch((err) => {
-        setProfileMessage(err.message);
-        console.log(err);
-      });
+    console.log(data);
+    console.log(currentUser);
+    if (data.name === currentUser.name && data.email === currentUser.email) {
+      setIsEditProfile(false);
+      setDisabled("disabled");
+    } else {
+      mainApi
+        .editProfile(data)
+        .then((res) => {
+          setCurrentUser(res);
+          setUserData(res);
+          setIsEditProfile(false);
+          setDisabled("disabled");
+        })
+        .catch((err) => {
+          setProfileMessage(err.message);
+          console.log(err);
+        });
+    }
 
     setProfileMessage("");
   }
@@ -225,6 +257,41 @@ function App() {
       .catch((res) => {
         console.log(res);
       });
+  }
+
+  function changeCheckboxSaved({ target: { checked } }) {
+    setCheckboxStatusMovies(checked);
+    console.log('sav',checkboxStatusSavedMovies);
+
+    if(!checkboxStatusSavedMovies) {
+      setFilmsSaveFilter(filterMoviesCheckbox(savedMovies))
+    } else {
+      console.log('filmsSaveFilter',filmsSaveFilter)
+      setFilmsSaveFilter(filmsSaveFilter)
+    }
+    ;
+  }
+
+  function changeCheckbox({ target: { checked } }) {
+    setCheckboxStatusMovies(checked);
+    console.log('mov',checkboxStatusMovies);
+
+    if(!checkboxStatusMovies) {
+      setFilterMovies(filterMoviesCheckbox(filterMovies))
+    } else {
+      setFilterMovies(JSON.parse(localStorage.getItem("filmsFilter")))
+    }
+    ;
+  }
+
+  function filterMoviesCheckbox(filterMovies) {
+    console.log(checkboxStatusMovies);
+
+    const filmsCheckboxMovies = filterMovies.filter((item) => {
+      return item.duration <= 40;
+    });
+    console.log(filmsCheckboxMovies);
+    return filmsCheckboxMovies;
   }
 
   const handleLogin = ({ email, password }) => {
@@ -331,6 +398,7 @@ function App() {
               buttomMoviesMore={buttomMoviesMore}
               onMoviesClickSave={handleMoviesSaveDelite}
               savedMovies={savedMovies}
+              changeCheckbox={changeCheckbox}
               // likeButtonSaved={likeButtonSaved}
             />
             <Footer />
@@ -342,10 +410,11 @@ function App() {
               handleMoviesDelete={handleMoviesDelete}
               savedMovies={savedMovies}
               filmsSaveFilter={filmsSaveFilter}
-              message={filterMessage}
+              message={filterMessageSaved}
               textOpen={textOpen}
-              setFilmsSaveFilter ={setFilmsSaveFilter}
+              setFilmsSaveFilter={setFilmsSaveFilter}
               isOpen={isPreloaderOpen}
+              changeCheckboxSaved={changeCheckboxSaved}
             />
             <Footer name="saved" />
           </Route>

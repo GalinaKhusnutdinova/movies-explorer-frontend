@@ -7,17 +7,15 @@ import "./Movies.css";
 import TextMessage from "../TextMessage/TextMessage";
 import { useState } from "react";
 import { clickMoreMovies, renderNumberFilm } from "../../utils/setNamberMovies";
-// import SavedMovies from "../SavedMovies/SavedMovies";
-// import { CurrentUserContext } from "../../context/CurrentUserContext";
+import { useCurrentWidth } from '../../hooks/useCurrentWidth'
 
 export default function Movies(props) {
   // const currentUser = React.useContext(CurrentUserContext);
-  const windowWidth = window.innerWidth;
+  const windowWidth = useCurrentWidth();
+  console.log(windowWidth)
   const [numberFilmsMore, setNumberFilmsMore] = useState(
     renderNumberFilm(windowWidth)
   );
-
-  // const [isSaved, setIsSaved] =useState('')
 
   function clickMoreMoies() {
     setNumberFilmsMore(numberFilmsMore + clickMoreMovies(windowWidth));
@@ -26,14 +24,13 @@ export default function Movies(props) {
   function handleCliclSaveButton(film) {
     console.log(film);
     props.onMoviesClickSave(film);
-    // isSaved = isSaved ? false : true
 
   }
 
   return (
     <main>
       <section className="movies">
-        <SearchForm onGetMovies={props.onGetMovies} />
+        <SearchForm changeCheckbox={props.changeCheckbox} onGetMovies={props.onGetMovies} />
         <TextMessage isOpen={props.textOpen} message={props.message} />
         <Preloader isOpen={props.isOpen} />
         <MoviesCardList>

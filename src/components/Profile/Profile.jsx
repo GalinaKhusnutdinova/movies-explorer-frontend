@@ -24,11 +24,11 @@ export default function Profile(props) {
 
   function handleChangeName(e) {
     setName(e.target.value);
-    setDisabled(true);
+      setDisabled(true);
   }
   function handleChangeEmail(e) {
     setEmail(e.target.value);
-    setDisabled(true);
+      setDisabled(true);
   }
 
   function handleSubmit(e) {
