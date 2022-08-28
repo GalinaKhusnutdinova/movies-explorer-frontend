@@ -41,7 +41,7 @@ function App() {
   const [buttomMoviesMore, setButtomMoviesMore] = useState(false);
   const [savedMovies, setSavedMovies] = useState({});
   const [likeButtonSaved, setLikeButtonSaved] = useState("false");
-  const [filmsSaveFilter, setFilmsSaveFilter] =useState({})
+  const [filmsSaveFilter, setFilmsSaveFilter] = useState({});
 
   // const location = document.location;
   const history = useHistory();
@@ -74,23 +74,22 @@ function App() {
   }
 
   function filterSavedMoviesClick(keyValue) {
-    updateFilterMessage()
+    updateFilterMessage();
     const filmsSaveFilter = savedMovies.filter((item) => {
       return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
     });
-    
 
     if (filmsSaveFilter.length === 0) {
       setTextOpen("true");
       setFilterMessage("«Ничего не найдено»");
     }
 
-    if (keyValue === '') {
+    if (keyValue === "") {
       setTextOpen("true");
       setFilterMessage("«Нужно ввести ключевое слово»");
     }
     setIsPreloaderOpen(false);
-    setFilmsSaveFilter(filmsSaveFilter)
+    setFilmsSaveFilter(filmsSaveFilter);
   }
 
   function handleGetMovies(keyValue) {
@@ -128,10 +127,7 @@ function App() {
     mainApi
       .getSaveMovies()
       .then((data) => {
-        let serialObj = JSON.stringify(data); //сериализуем obj
-        localStorage.setItem("savedFilm", serialObj); //запишем его в хранилище по ключу
-        let returnObj = JSON.parse(localStorage.getItem("savedFilm")); //спарсим его обратно объект
-        setSavedMovies(returnObj);
+        setSavedMovies(data);
       })
       .catch((err) => {
         console.log(err);
@@ -188,37 +184,31 @@ function App() {
   }
 
   function handleMoviesSaveDelite(film) {
-    console.log("для сохранения", film)
-   
-
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isSaved = savedMovies.some((savedMovie) => {
-      console.log("для сравнения", savedMovie)
-      return savedMovie.movieId === film.id ? (film._id = savedMovie._id) : "";
+      return savedMovie.movieId === film.id;
     });
 
-    // if (isSaved) {
-    //   setLikeButtonSaved(false);
-    // } else {
-    //   setLikeButtonSaved(true);
-    // }
-
-    // console.log(isSaved);
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    const request = isSaved
-      ? mainApi.deleteSave(film._id)
-      : mainApi.addSave(film);
-    request
-      .then((newMovies) => {
-        console.log("newMovies", newMovies);
-
-        setSavedMovies(
-          filterMovies.map((c) => (c.movieId === film.id ? newMovies : c))
-        );
-      })
-      .catch((res) => {
-        console.log(res);
-      });
+    isSaved
+      ? mainApi
+          .deleteSave(film._id)
+          .then(() => {
+            setSavedMovies((prevState) =>
+              prevState.filter((item) => item._id !== film._id)
+            );
+          })
+          .catch((res) => {
+            console.log(res);
+          })
+      : mainApi
+          .addSave(film)
+          .then((newMovies) => {
+            setSavedMovies([newMovies, ...savedMovies]);
+          })
+          .catch((res) => {
+            console.log(res);
+          });
   }
 
   function handleMoviesDelete(film) {
