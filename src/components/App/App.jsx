@@ -60,8 +60,7 @@ function App() {
   const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] =
     useState(false);
 
-  console.log("chek-movies", checkboxStatusMovies);
-  console.log("chek-save", checkboxStatusSavedMovies);
+    console.log('loggedIn', loggedIn)
 
   const history = useHistory();
   useEffect(() => {
@@ -322,7 +321,7 @@ function App() {
         if (data.token) {
           localStorage.setItem("token", data.token);
           tokenCheck();
-          history.push("/");
+          history.push("/movies");
         }
         setLoginMessage("");
       })
@@ -363,6 +362,8 @@ function App() {
             };
 
             setLoggedIn(true);
+            console.log('loggedIn', loggedIn)
+            localStorage.setItem('loggedIn', loggedIn)
             setUserData(userData);
           }
         })
@@ -382,6 +383,8 @@ function App() {
   };
 
   useEffect(() => {
+    const localLoginStatus = localStorage.getItem('loggedIn')
+    setLoggedIn(localLoginStatus)
     tokenCheck();
   }, []);
 
