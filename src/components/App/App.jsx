@@ -43,9 +43,8 @@ function App() {
   const [checkboxStatusMovies, setCheckboxStatusMovies] = useState(false);
   const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] =
     useState(false);
-  console.log("chek-movies",checkboxStatusMovies);
-  console.log("chek-save",checkboxStatusSavedMovies);
-
+  console.log("chek-movies", checkboxStatusMovies);
+  console.log("chek-save", checkboxStatusSavedMovies);
 
   const history = useHistory();
   useEffect(() => {
@@ -87,7 +86,6 @@ function App() {
       setTextOpen("true");
       setFilterMessageSaved("«Ничего не найдено»");
     }
-
     if (keyValue === "") {
       setTextOpen("true");
       setFilterMessageSaved("«Нужно ввести ключевое слово»");
@@ -103,6 +101,21 @@ function App() {
     }
   }
 
+  function changeCheckboxSaved({ target: { checked } }) {
+    setCheckboxStatusSavedMovies(checked);
+
+    if (!checkboxStatusSavedMovies) {
+      setFilmsSaveFilter(filterSavedMoviesCheckbox());
+    } else {
+      setFilmsSaveFilter(JSON.parse(localStorage.getItem("filmsSaveFilter")));
+    }
+  }
+  console.log("filterSavedMoviesCheckbox", filterSavedMoviesCheckbox());
+  function filterSavedMoviesCheckbox() {
+    return JSON.parse(localStorage.getItem("filmsSaveFilter")).filter((item) => {
+      return item.duration <= 40;
+    });
+  }
 
   function handleGetMovies(keyValue) {
     setIsPreloaderOpen(true);
@@ -172,6 +185,25 @@ function App() {
     } else {
       setFilterMovies(returnObj);
     }
+  }
+
+  function changeCheckbox({ target: { checked } }) {
+    localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
+    let returnObj = localStorage.getItem("checkboxStatusMovies"); //спарсим его обратно объект
+    setCheckboxStatusMovies(returnObj);
+
+    if (!checkboxStatusMovies) {
+      setFilterMovies(filterMoviesCheckbox());
+    } else {
+      setFilterMovies(JSON.parse(localStorage.getItem("filmsFilter")));
+    }
+  }
+
+
+  function filterMoviesCheckbox() {
+    return JSON.parse(localStorage.getItem("filmsFilter")).filter((item) => {
+      return item.duration <= 40;
+    });
   }
 
   function handleUpdateUser(data) {
@@ -250,42 +282,9 @@ function App() {
       });
   }
 
-  function changeCheckboxSaved({ target: { checked } }) {
-    setCheckboxStatusSavedMovies(checked);
+  
 
-    if (!checkboxStatusSavedMovies) {
-      setFilmsSaveFilter(filterSavedMoviesCheckbox());
-    } else {
-      setFilmsSaveFilter(JSON.parse(localStorage.getItem("filmsSaveFilter")));
-    }
-  }
-
-  function filterSavedMoviesCheckbox() {
-    const filmsCheckboxMovies = filmsSaveFilter.filter((item) => {
-      return item.duration <= 40;
-    });
-    return filmsCheckboxMovies;
-  }
-
-  function changeCheckbox({ target: { checked } }) {
-    localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
-    let returnObj = localStorage.getItem("checkboxStatusMovies"); //спарсим его обратно объект
-    setCheckboxStatusMovies(returnObj);
-
-    if (!checkboxStatusMovies) {
-      setFilterMovies(filterMoviesCheckbox());
-    } else {
-      setFilterMovies(JSON.parse(localStorage.getItem("filmsFilter")));
-    }
-  }
-
-  function filterMoviesCheckbox() {
-    const filmsCheckboxMovies = filterMovies.filter((item) => {
-      return item.duration <= 40;
-    });
-
-    return filmsCheckboxMovies;
-  }
+  
 
   const handleLogin = ({ email, password }) => {
     updateRegisterMessage();
@@ -367,7 +366,7 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
-        <Route exact path="/" loggedIn={loggedIn}>
+          <Route exact path="/" loggedIn={loggedIn}>
             {loggedIn ? (
               <HeaderAuth
                 name="auth-main"
@@ -413,7 +412,7 @@ function App() {
             />
             <Footer name="saved" />
           </ProtectedRoute>
-          <ProtectedRoute path="/profile"loggedIn={loggedIn}>
+          <ProtectedRoute path="/profile" loggedIn={loggedIn}>
             <HeaderAuth name="auth" onHeaderAuth={hendleHeaderAuthClick} />
             <Profile
               onUpdateUser={handleUpdateUser}

@@ -22,7 +22,6 @@ export default function Movies({
   buttonMoviesMore,
   onMoviesClickSave,
   checkboxStatusMovies
-  // setCheckboxStatusMovies
 }) {
   useEffect(() => {
     setMovies(JSON.parse(localStorage.getItem("saveMovies")));
