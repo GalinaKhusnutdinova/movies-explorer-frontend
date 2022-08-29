@@ -20,12 +20,6 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute.jsx";
 
 function App() {
-  // const inintialSearchResult =
-  //   (localStorage.getItem("filterMoviesCheckbox") &&
-  //     JSON.parse(localStorage.getItem("filterMoviesCheckbox"))) ||
-  //   (localStorage.getItem("filterMoviesCheckbox") &&
-  //     JSON.parse(localStorage.getItem("filterMoviesCheckbox"))) ||
-  //   [];
   const inintialSearchResult = localStorage.getItem("filterMoviesCheckbox")
     ? JSON.parse(localStorage.getItem("filterMoviesCheckbox"))
     : !localStorage.getItem("filmsFilter")
@@ -36,7 +30,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [movies, setMovies] = useState([]);
   const [filterMovies, setFilterMovies] = useState(inintialSearchResult);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(true || false);
   const [userData, setUserData] = useState();
   const [isEditProfile, setIsEditProfile] = useState(false);
   const [disabled, setDisabled] = useState("disabled");
@@ -60,7 +54,12 @@ function App() {
   const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] =
     useState(false);
 
-    console.log('loggedIn', loggedIn)
+  console.log("loggedIn", loggedIn);
+  useEffect(() => {
+    const localLoginStatus = localStorage.getItem("loggedIn");
+    setLoggedIn(localLoginStatus);
+    tokenCheck();
+  }, []);
 
   const history = useHistory();
   useEffect(() => {
@@ -312,6 +311,22 @@ function App() {
       });
   }
 
+  const handleRegister = ({ name, email, password }) => {
+    updateRegisterMessage();
+
+    return moviesAuth
+      .register(name, email, password)
+      .then(() => {
+        handleLogin({ email, password });
+        setRegisterMessage("");
+      })
+      .catch((err) => {
+        setRegisterMessage(err.message);
+        setIsRegistMessage(true);
+        console.log(err);
+      });
+  };
+
   const handleLogin = ({ email, password }) => {
     updateRegisterMessage();
 
@@ -332,22 +347,6 @@ function App() {
       });
   };
 
-  const handleRegister = ({ name, email, password }) => {
-    updateRegisterMessage();
-
-    return moviesAuth
-      .register(name, email, password)
-      .then(() => {
-        handleLogin({ email, password });
-        setRegisterMessage("");
-      })
-      .catch((err) => {
-        setRegisterMessage(err.message);
-        setIsRegistMessage(true);
-        console.log(err);
-      });
-  };
-
   const tokenCheck = () => {
     if (localStorage.getItem("token")) {
       let token = localStorage.getItem("token");
@@ -360,10 +359,10 @@ function App() {
               name: res.name,
               email: res.email,
             };
-
             setLoggedIn(true);
-            console.log('loggedIn', loggedIn)
-            localStorage.setItem('loggedIn', loggedIn)
+            localStorage.setItem("loggedIn", true);
+            console.log(loggedIn);
+
             setUserData(userData);
           }
         })
@@ -381,12 +380,7 @@ function App() {
     history.push("/signin");
     localStorage.clear();
   };
-
-  useEffect(() => {
-    const localLoginStatus = localStorage.getItem('loggedIn')
-    setLoggedIn(localLoginStatus)
-    tokenCheck();
-  }, []);
+  
 
   useEffect(() => {
     if (loggedIn) {
@@ -440,7 +434,6 @@ function App() {
               isOpen={isPreloaderOpen}
               changeCheckboxSaved={changeCheckboxSaved}
               checkboxStatusSavedMovies={checkboxStatusSavedMovies}
-              // setCheckboxStatusSavedMovies={setCheckboxStatusSavedMovies}
             />
             <Footer name="saved" />
           </ProtectedRoute>

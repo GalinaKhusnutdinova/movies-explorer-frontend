@@ -4,8 +4,7 @@ import "./Register.css";
 import { useFormWithValidation } from "../../hooks/form";
 
 export default function Register(props) {
-  const { values, handleChange, errors, isValid } = useFormWithValidation();
-  console.log(isValid);
+  const { values, handleChange, errors } = useFormWithValidation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,7 +24,6 @@ export default function Register(props) {
         handleSubmit={handleSubmit}
         isOpen={props.isOpen}
         message={props.message}
-        // disabled={isValid ? "disabled" : 'null'}
       >
         <label className="register__label">
           Имя

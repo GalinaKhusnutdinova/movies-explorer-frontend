@@ -30,7 +30,6 @@ export default function SavedMovies({
   return (
     <main className="movies-saved">
       <SearchForm
-        // keyValue={keyValue}
         filtetrue="true"
         filterSavedMoviesClick={filterSavedMoviesClick}
         changeCheckbox={changeCheckboxSaved}
