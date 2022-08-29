@@ -26,7 +26,6 @@ export default function Movies({
 
   console.log(filterMovies)
   useEffect(() => {
-    
     setMovies(JSON.parse(localStorage.getItem("saveMovies")));
   }, [setMovies]);
 console.log()
