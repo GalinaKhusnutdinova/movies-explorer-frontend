@@ -40,7 +40,7 @@ function App() {
   const [buttonMoviesMore, setButtonMoviesMore] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
   const [filmsSaveFilter, setFilmsSaveFilter] = useState([]);
-  const [checkboxStatusMovies, setCheckboxStatusMovies] = useState(false);
+  const [checkboxStatusMovies, setCheckboxStatusMovies] = useState(localStorage.getItem("checkboxStatusMovies") ? localStorage.getItem("checkboxStatusMovies") : '');
   const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] =
     useState(false);
   console.log("chek-movies", checkboxStatusMovies);
@@ -358,6 +358,7 @@ function App() {
     setUserData(null);
     localStorage.removeItem("movies");
     history.push("/signin");
+    localStorage.clear();
   };
 
   useEffect(() => {

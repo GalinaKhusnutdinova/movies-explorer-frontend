@@ -5,9 +5,7 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
 export default function SearchForm(props) {
-  const [keyValue, setKeyValue] = useState(localStorage.getItem("keyValueSaveMovies")
-    ? localStorage.getItem("keyValueSaveMovies")
-    : '');
+  const [keyValue, setKeyValue] = useState(props.localKeyValue ? props.localKeyValue : '');
 
   function handleChangeName(e) {
     setKeyValue(e.target.value);

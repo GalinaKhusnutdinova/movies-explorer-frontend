@@ -24,6 +24,10 @@ export default function Movies({
   checkboxStatusMovies
 }) {
 
+  const localKeyValue = localStorage.getItem("keyValueSaveMovies")
+  ? localStorage.getItem("keyValueSaveMovies")
+  : ''
+
   console.log(filterMovies)
   useEffect(() => {
     setMovies(JSON.parse(localStorage.getItem("saveMovies")));
@@ -45,7 +49,7 @@ console.log()
   return (
     <main>
       <section className="movies">
-        <SearchForm checked={checkboxStatusMovies} changeCheckbox={changeCheckbox} onGetMovies={onGetMovies} />
+        <SearchForm localKeyValue ={localKeyValue} checked={checkboxStatusMovies} changeCheckbox={changeCheckbox} onGetMovies={onGetMovies} />
         <TextMessage isOpen={textOpen} message={message} />
         <Preloader isOpen={isOpen} />
         <MoviesCardList>
