@@ -85,7 +85,7 @@ export default function Movies({
         <div
           className={`movies__more movies__more_${buttonMoviesMore && "open"}`}
         >
-          {numberFilmsMore < filterMovies.length && (
+          {numberFilmsMore < filterMovies && (
             <button
               onClick={clickMoreFilms}
               type="button"
