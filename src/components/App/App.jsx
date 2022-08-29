@@ -17,6 +17,7 @@ import { mainApi } from "../../utils/MainApi";
 import { moviesApi } from "../../utils/MoviesApi";
 import HeaderNoAuth from "../HeaderNoAuth/HeaderNoAuth.jsx";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import ProtectedRoute from "../ProtectedRoute.jsx";
 
 function App() {
   const [isHeaderAuthOpen, setIsHeaderAuthOpen] = useState(false);
@@ -250,9 +251,7 @@ function App() {
   }
 
   function changeCheckboxSaved({ target: { checked } }) {
-    localStorage.setItem("checkboxStatusSavedMovies", checked); //запишем его в хранилище по ключу
-    let returnObj = localStorage.getItem("checkboxStatusSavedMovies"); //спарсим его обратно объект
-    setCheckboxStatusSavedMovies(returnObj);
+    setCheckboxStatusSavedMovies(checked);
 
     if (!checkboxStatusSavedMovies) {
       setFilmsSaveFilter(filterSavedMoviesCheckbox());
@@ -362,13 +361,13 @@ function App() {
     if (loggedIn) {
       handleGetSaveMovies();
     }
-  }, [loggedIn, history]);
+  }, [loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Switch>
-          <Route exact path="/">
+        <Route exact path="/" loggedIn={loggedIn}>
             {loggedIn ? (
               <HeaderAuth
                 name="auth-main"
@@ -379,7 +378,7 @@ function App() {
             )}
             <Main />
           </Route>
-          <Route path="/movies">
+          <ProtectedRoute path="/movies" loggedIn={loggedIn}>
             <HeaderAuth name="auth" onHeaderAuth={hendleHeaderAuthClick} />
             <Movies
               message={filterMessage}
@@ -393,10 +392,11 @@ function App() {
               changeCheckbox={changeCheckbox}
               setMovies={setMovies}
               setCheckboxStatusMovies={setCheckboxStatusMovies}
+              checkboxStatusMovies={checkboxStatusMovies}
             />
             <Footer />
-          </Route>
-          <Route path="/saved-movies">
+          </ProtectedRoute>
+          <ProtectedRoute path="/saved-movies" loggedIn={loggedIn}>
             <HeaderAuth name="auth" onHeaderAuth={hendleHeaderAuthClick} />
             <SavedMovies
               filterSavedMoviesClick={filterSavedMoviesClick}
@@ -412,8 +412,8 @@ function App() {
               // setCheckboxStatusSavedMovies={setCheckboxStatusSavedMovies}
             />
             <Footer name="saved" />
-          </Route>
-          <Route path="/profile">
+          </ProtectedRoute>
+          <ProtectedRoute path="/profile"loggedIn={loggedIn}>
             <HeaderAuth name="auth" onHeaderAuth={hendleHeaderAuthClick} />
             <Profile
               onUpdateUser={handleUpdateUser}
@@ -424,7 +424,7 @@ function App() {
               disabled={disabled}
               profileMessage={profileMessage}
             />
-          </Route>
+          </ProtectedRoute>
           <Route path="/signin">
             <Login
               isOpen={isLoginMessage}

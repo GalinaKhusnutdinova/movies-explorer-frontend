@@ -16,14 +16,12 @@ export default function SavedMovies({
   setFilmsSaveFilter,
   isOpen,
   changeCheckboxSaved,
-  checkboxStatusSavedMovies
 }) {
 
   function handleDelete(film) {
     handleMoviesDelete(film);
   }
 
-  // const keyValue = localStorage.getItem("keyValueSaveMovies");
 
   useEffect(() => {
     setFilmsSaveFilter(savedMovies);
@@ -32,7 +30,6 @@ export default function SavedMovies({
   return (
     <main className="movies-saved">
       <SearchForm
-        checked={checkboxStatusSavedMovies}
         // keyValue={keyValue}
         filtetrue="true"
         filterSavedMoviesClick={filterSavedMoviesClick}

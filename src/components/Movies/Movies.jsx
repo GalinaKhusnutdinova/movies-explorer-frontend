@@ -21,6 +21,7 @@ export default function Movies({
   savedMovies,
   buttonMoviesMore,
   onMoviesClickSave,
+  checkboxStatusMovies
   // setCheckboxStatusMovies
 }) {
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function Movies({
   return (
     <main>
       <section className="movies">
-        <SearchForm checked={localStorage.getItem("checkboxStatusMovies")} changeCheckbox={changeCheckbox} onGetMovies={onGetMovies} />
+        <SearchForm checked={checkboxStatusMovies} changeCheckbox={changeCheckbox} onGetMovies={onGetMovies} />
         <TextMessage isOpen={textOpen} message={message} />
         <Preloader isOpen={isOpen} />
         <MoviesCardList>
