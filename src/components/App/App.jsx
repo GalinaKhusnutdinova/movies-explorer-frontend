@@ -189,7 +189,7 @@ function App() {
 
   function changeCheckbox({ target: { checked } }) {
     localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
-    let returnObj = localStorage.getItem("checkboxStatusMovies"); //спарсим его обратно объект
+    let returnObj = localStorage.getItem("checkboxStatusMovies") === 'true'; //спарсим его обратно объект
     setCheckboxStatusMovies(returnObj);
 
     if (!checkboxStatusMovies) {
