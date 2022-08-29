@@ -110,12 +110,10 @@ function App() {
       setFilmsSaveFilter(JSON.parse(localStorage.getItem("filmsSaveFilter")));
     }
   }
-  
-  
-  function filterSavedMoviesCheckbox() {
 
+  function filterSavedMoviesCheckbox() {
     const localFilterSave = JSON.parse(localStorage.getItem("filmsSaveFilter"));
-   
+
     if (localFilterSave !== null || localFilterSave >= 1) {
       return JSON.parse(localStorage.getItem("filmsSaveFilter")).filter(
         (item) => {
@@ -211,11 +209,11 @@ function App() {
 
   function filterMoviesCheckbox() {
     const localFilterMovies = JSON.parse(localStorage.getItem("filmsFilter"));
-   
+
     if (localFilterMovies !== null || localFilterMovies >= 1)
-    return JSON.parse(localStorage.getItem("filmsFilter")).filter((item) => {
-      return item.duration <= 40;
-    });
+      return JSON.parse(localStorage.getItem("filmsFilter")).filter((item) => {
+        return item.duration <= 40;
+      });
   }
 
   function handleUpdateUser(data) {
@@ -296,9 +294,11 @@ function App() {
 
   const handleLogin = ({ email, password }) => {
     updateRegisterMessage();
+
     return moviesAuth
       .authorize(email, password)
       .then((data) => {
+        
         if (data.token) {
           localStorage.setItem("token", data.token);
           tokenCheck();
@@ -451,9 +451,6 @@ function App() {
           </Route>
         </Switch>
         <Navigation isOpen={isHeaderAuthOpen} onClose={closeHeaderMenu} />
-        {/* <Route>
-        {(loggedIn && <Footer />}
-      </Route> */}
       </div>
     </CurrentUserContext.Provider>
   );
