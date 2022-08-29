@@ -1,12 +1,8 @@
 import React from "react";
 import "./MoviesCard.css";
-// import { CurrentUserContext } from "../../context/CurrentUserContext";
-// import { useEffect } from "react";
-// import movies from "../../images/movies.png";
 
 export default function MoviesCard({film, children, images}) {
 
-  // console.log('lololololo', film)
   let filmUrl = `https://api.nomoreparties.co${images || ""}`;
 
   return (

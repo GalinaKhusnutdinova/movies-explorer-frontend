@@ -7,43 +7,56 @@ import "./Movies.css";
 import TextMessage from "../TextMessage/TextMessage";
 import { useState } from "react";
 import { clickMoreMovies, renderNumberFilm } from "../../utils/setNamberMovies";
-import { useCurrentWidth } from '../../hooks/useCurrentWidth'
+import { useCurrentWidth } from "../../hooks/useCurrentWidth";
+import { useEffect } from "react";
 
-export default function Movies(props) {
-  // const currentUser = React.useContext(CurrentUserContext);
+export default function Movies({
+  setMovies,
+  changeCheckbox,
+  onGetMovies,
+  textOpen,
+  message,
+  isOpen,
+  filterMovies,
+  savedMovies,
+  buttonMoviesMore,
+  onMoviesClickSave,
+  // setCheckboxStatusMovies
+}) {
+  useEffect(() => {
+    setMovies(JSON.parse(localStorage.getItem("saveMovies")));
+  }, [setMovies]);
+
   const windowWidth = useCurrentWidth();
-  console.log(windowWidth)
   const [numberFilmsMore, setNumberFilmsMore] = useState(
     renderNumberFilm(windowWidth)
   );
 
-  function clickMoreMoies() {
+  function clickMoreFilms() {
     setNumberFilmsMore(numberFilmsMore + clickMoreMovies(windowWidth));
   }
 
-  function handleCliclSaveButton(film) {
-    console.log(film);
-    props.onMoviesClickSave(film);
-
+  function handleClickSaveButton(film) {
+    onMoviesClickSave(film);
   }
 
   return (
     <main>
       <section className="movies">
-        <SearchForm changeCheckbox={props.changeCheckbox} onGetMovies={props.onGetMovies} />
-        <TextMessage isOpen={props.textOpen} message={props.message} />
-        <Preloader isOpen={props.isOpen} />
+        <SearchForm checked={localStorage.getItem("checkboxStatusMovies")} changeCheckbox={changeCheckbox} onGetMovies={onGetMovies} />
+        <TextMessage isOpen={textOpen} message={message} />
+        <Preloader isOpen={isOpen} />
         <MoviesCardList>
-          {props.filterMovies.slice(0, numberFilmsMore).map((film) => {
-            const isSaved = props.savedMovies.some((savedMovie) => {
+          {filterMovies.slice(0, numberFilmsMore).map((film) => {
+            const isSaved = savedMovies.some((savedMovie) => {
               return savedMovie.movieId === film.id
                 ? (film._id = savedMovie._id)
                 : "";
             });
             return (
-              <MoviesCard film={film} key={film.id} images={film.image.url}>
+              <MoviesCard film={film} key={film.id} images={film.image.url || film.image}>
                 <button
-                  onClick={() => handleCliclSaveButton(film)}
+                  onClick={() => handleClickSaveButton(film)}
                   type="button"
                   aria-label="сохранить"
                   className={`card__button card__button${isSaved && "_active"}`}
@@ -55,13 +68,11 @@ export default function Movies(props) {
           })}
         </MoviesCardList>
         <div
-          className={`movies__more movies__more_${
-            props.buttomMoviesMore && "open"
-          }`}
+          className={`movies__more movies__more_${buttonMoviesMore && "open"}`}
         >
-          {numberFilmsMore < props.filterMovies.length && (
+          {numberFilmsMore < filterMovies.length && (
             <button
-              onClick={clickMoreMoies}
+              onClick={clickMoreFilms}
               type="button"
               className="movies__button"
             >

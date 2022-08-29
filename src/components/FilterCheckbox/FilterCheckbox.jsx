@@ -6,7 +6,8 @@ export default function FilterCheckbox(props) {
   return (
     <>
       <input
-      onChange={props.changeCheckbox}
+        onChange={props.changeCheckbox}
+        checked={props.checked}
         type="checkbox"
         className="custom-checkbox"
         id="short"

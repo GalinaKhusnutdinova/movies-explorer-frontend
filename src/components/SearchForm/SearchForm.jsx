@@ -5,7 +5,7 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import "./SearchForm.css";
 
 export default function SearchForm(props) {
-  const [keyValue, setKeyValue] = useState("");
+  const [keyValue, setKeyValue] = useState('');
 
   function handleChangeName(e) {
     setKeyValue(e.target.value);
@@ -15,14 +15,12 @@ export default function SearchForm(props) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
 
-    if (props.filtetrue === 'true') {
-      props.filterSavedMoviesClick(keyValue)
+    if (props.filtetrue === "true") {
+      props.filterSavedMoviesClick(keyValue);
     } else {
-       // Передаём значения управляемых компонентов во внешний обработчик
-    props.onGetMovies(keyValue);
+      // Передаём значения управляемых компонентов во внешний обработчик
+      props.onGetMovies(keyValue);
     }
-
-   
   }
   return (
     <div className="search-form">
@@ -50,7 +48,7 @@ export default function SearchForm(props) {
         </button>
       </form>
       <div className="search-form__filter">
-        <FilterCheckbox changeCheckbox={props.changeCheckbox} />
+        <FilterCheckbox checked={props.checked} changeCheckbox={props.changeCheckbox} />
       </div>
     </div>
   );

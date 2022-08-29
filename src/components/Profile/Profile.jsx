@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-// import ProfileForm from "../ProfileForm/ProfileForm.jsx"
 import { CurrentUserContext } from "../../context/CurrentUserContext";
 
 import "./Profile.css";
@@ -14,7 +13,6 @@ export default function Profile(props) {
     setName(currentUser.name);
     setEmail(currentUser.email);
     setNameUse(currentUser.name);
-    console.log(666)
   }, [currentUser]);
 
   const [name, setName] = useState("");
@@ -24,11 +22,11 @@ export default function Profile(props) {
 
   function handleChangeName(e) {
     setName(e.target.value);
-      setDisabled(true);
+    setDisabled(true);
   }
   function handleChangeEmail(e) {
     setEmail(e.target.value);
-      setDisabled(true);
+    setDisabled(true);
   }
 
   function handleSubmit(e) {

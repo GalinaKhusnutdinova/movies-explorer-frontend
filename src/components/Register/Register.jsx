@@ -1,26 +1,17 @@
 import React from "react";
-import { useState } from "react";
 import FromBlock from "../FormBlock/FormBlock";
 import "./Register.css";
 
-export default function Register(props) {
-  const [formParams, setFormParams] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
+import { useFormWithValidation } from "../../hooks/form";
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormParams((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+
+export default function Register(props) {
+  const { values, handleChange, errors } =
+  useFormWithValidation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let {name, email, password } = formParams;
+    let {name, email, password } = values;
     props.handleRegister({name, email, password });
   };
   return (
@@ -47,10 +38,10 @@ export default function Register(props) {
               required
               minLength="2"
               maxLength="40"
-              value={formParams.name}
+              value={values.name ||''}
               onChange={handleChange}
             />
-            <span className="register__message"></span>
+            <span className="register__message">{errors.name}</span>
           </label>
           <label className="register__label">
             E-mail
@@ -62,10 +53,10 @@ export default function Register(props) {
               required
               minLength="2"
               maxLength="40"
-              value={formParams.email}
+              value={values.email || ''}
               onChange={handleChange}
             />
-            <span className="register__message"></span>
+            <span className="register__message">{errors.email}</span>
           </label>
           <label className="register__label">
             Пароль
@@ -77,10 +68,10 @@ export default function Register(props) {
               required
               minLength="2"
               maxLength="200"
-              value={formParams.password}
+              value={values.password || ''}
               onChange={handleChange}
             />
-            <span className="register__message"></span>
+            <span className="register__message">{errors.password}</span>
           </label>
         </FromBlock>
       </section>

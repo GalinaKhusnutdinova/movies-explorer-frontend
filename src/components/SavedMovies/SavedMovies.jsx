@@ -15,23 +15,25 @@ export default function SavedMovies({
   textOpen,
   setFilmsSaveFilter,
   isOpen,
-  changeCheckboxSaved
+  changeCheckboxSaved,
+  checkboxStatusSavedMovies
 }) {
+
   function handleDelete(film) {
     handleMoviesDelete(film);
   }
+
+  // const keyValue = localStorage.getItem("keyValueSaveMovies");
 
   useEffect(() => {
     setFilmsSaveFilter(savedMovies);
   }, [savedMovies, setFilmsSaveFilter]);
 
-  // const savedFilterMovies =
-  //   props.filmsSaveFilter.length >= 1
-  //     ? props.filmsSaveFilter
-  //     : props.savedMovies;
   return (
     <main className="movies-saved">
       <SearchForm
+        checked={checkboxStatusSavedMovies}
+        // keyValue={keyValue}
         filtetrue="true"
         filterSavedMoviesClick={filterSavedMoviesClick}
         changeCheckbox={changeCheckboxSaved}

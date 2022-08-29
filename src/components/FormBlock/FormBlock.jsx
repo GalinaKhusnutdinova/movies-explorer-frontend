@@ -14,6 +14,7 @@ export default function FormBlock(props) {
           name={props.formName}
           className={`register__form register__form_${props.formName}`}
           onSubmit={props.handleSubmit}
+          noValidate
         >
           {props.children}
 

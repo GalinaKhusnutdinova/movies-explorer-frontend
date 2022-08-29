@@ -11,10 +11,10 @@ export const useCurrentWidth = () => {
       timeoutId = setTimeout(() => setWidth(window.innerWidth), 150);
     };
 
-    window.addEventListener('resize',resizeListener);
+    window.addEventListener("resize", resizeListener);
 
     return () => {
-      window.removeEventListener('resize',resizeListener);
+      window.removeEventListener("resize", resizeListener);
     };
   }, []);
   return width;

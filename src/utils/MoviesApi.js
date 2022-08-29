@@ -2,7 +2,6 @@ class MoviesApi {
   constructor(settings) {
     this._settings = settings;
   }
-  //qq
   getMovies() {
     return fetch(this._settings.baseUrl, {
       headers: this._settings.headers,
