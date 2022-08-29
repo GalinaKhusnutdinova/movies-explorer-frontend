@@ -17,6 +17,9 @@
 директория images/ с картинками, / 3.38
 директория components/ с JS и CSS-файлами компонентов, / 3.38
 директория fonts/ со шрифтами. / 3.38
+## Cсылка на пул-реквест
+
+[Cсылка](https://github.com/GalinaKhusnutdinova/movies-explorer-frontend/pull/2/)
 
 ## Cсылка на сайт, размещенный на Яндекс.Облаке:
 
