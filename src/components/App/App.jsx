@@ -110,11 +110,19 @@ function App() {
       setFilmsSaveFilter(JSON.parse(localStorage.getItem("filmsSaveFilter")));
     }
   }
-  console.log("filterSavedMoviesCheckbox", filterSavedMoviesCheckbox());
+  
+  
   function filterSavedMoviesCheckbox() {
-    return JSON.parse(localStorage.getItem("filmsSaveFilter")).filter((item) => {
-      return item.duration <= 40;
-    });
+
+    const localFilterSave = JSON.parse(localStorage.getItem("filmsSaveFilter"));
+   
+    if (localFilterSave !== null || localFilterSave >= 1) {
+      return JSON.parse(localStorage.getItem("filmsSaveFilter")).filter(
+        (item) => {
+          return item.duration <= 40;
+        }
+      );
+    }
   }
 
   function handleGetMovies(keyValue) {
@@ -176,6 +184,7 @@ function App() {
     if (filmsFilter.length > 3) {
       setButtonMoviesMore(true);
     }
+    console.log(filmsFilter);
     setIsPreloaderOpen(false);
     let serialObj = JSON.stringify(filmsFilter); //сериализуем obj
     localStorage.setItem("filmsFilter", serialObj); //запишем его в хранилище по ключу
@@ -185,11 +194,12 @@ function App() {
     } else {
       setFilterMovies(returnObj);
     }
+    console.log("filterMoviesCheckbox", filterMoviesCheckbox());
   }
 
   function changeCheckbox({ target: { checked } }) {
     localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
-    let returnObj = localStorage.getItem("checkboxStatusMovies") === 'true'; //спарсим его обратно объект
+    let returnObj = localStorage.getItem("checkboxStatusMovies") === "true"; //спарсим его обратно объект
     setCheckboxStatusMovies(returnObj);
 
     if (!checkboxStatusMovies) {
@@ -199,8 +209,10 @@ function App() {
     }
   }
 
-
   function filterMoviesCheckbox() {
+    const localFilterMovies = JSON.parse(localStorage.getItem("filmsFilter"));
+   
+    if (localFilterMovies !== null || localFilterMovies >= 1)
     return JSON.parse(localStorage.getItem("filmsFilter")).filter((item) => {
       return item.duration <= 40;
     });
@@ -281,10 +293,6 @@ function App() {
         console.log(res);
       });
   }
-
-  
-
-  
 
   const handleLogin = ({ email, password }) => {
     updateRegisterMessage();

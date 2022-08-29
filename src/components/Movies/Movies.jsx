@@ -23,10 +23,13 @@ export default function Movies({
   onMoviesClickSave,
   checkboxStatusMovies
 }) {
+
+  console.log(filterMovies)
   useEffect(() => {
+    
     setMovies(JSON.parse(localStorage.getItem("saveMovies")));
   }, [setMovies]);
-
+console.log()
   const windowWidth = useCurrentWidth();
   const [numberFilmsMore, setNumberFilmsMore] = useState(
     renderNumberFilm(windowWidth)
@@ -47,7 +50,7 @@ export default function Movies({
         <TextMessage isOpen={textOpen} message={message} />
         <Preloader isOpen={isOpen} />
         <MoviesCardList>
-          {filterMovies.slice(0, numberFilmsMore).map((film) => {
+          {(filterMovies != null || filterMovies !== undefined || filterMovies.length !== 0) && filterMovies.slice(0, numberFilmsMore).map((film) => {
             const isSaved = savedMovies.some((savedMovie) => {
               return savedMovie.movieId === film.id
                 ? (film._id = savedMovie._id)

@@ -38,8 +38,8 @@ export default function SavedMovies({
       <TextMessage isOpen={textOpen} message={message} />
       <Preloader isOpen={isOpen} />
       <MoviesCardList name="saved">
-        {filmsSaveFilter.map((film) => {
-          return (
+        {(filmsSaveFilter >=1 || filmsSaveFilter !== null) && filmsSaveFilter.map((film) => {
+          return (  
             <MoviesCard
               film={film}
               key={film.movieId}
@@ -53,7 +53,10 @@ export default function SavedMovies({
               ></button>
             </MoviesCard>
           );
-        })}
+        })
+        
+        
+        }
       </MoviesCardList>
     </main>
   );
