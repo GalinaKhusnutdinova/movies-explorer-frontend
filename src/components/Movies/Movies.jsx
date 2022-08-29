@@ -21,22 +21,19 @@ export default function Movies({
   savedMovies,
   buttonMoviesMore,
   onMoviesClickSave,
-  checkboxStatusMovies
+  checkboxStatusMovies,
 }) {
-
   const localKeyValue = localStorage.getItem("keyValueSaveMovies")
-  ? localStorage.getItem("keyValueSaveMovies")
-  : ''
-
-  console.log(filterMovies)
-  useEffect(() => {
-    setMovies(JSON.parse(localStorage.getItem("saveMovies")));
-  }, [setMovies]);
-console.log()
+    ? localStorage.getItem("keyValueSaveMovies")
+    : "";
   const windowWidth = useCurrentWidth();
   const [numberFilmsMore, setNumberFilmsMore] = useState(
     renderNumberFilm(windowWidth)
   );
+
+  useEffect(() => {
+    setMovies(JSON.parse(localStorage.getItem("saveMovies")));
+  }, [setMovies]);
 
   function clickMoreFilms() {
     setNumberFilmsMore(numberFilmsMore + clickMoreMovies(windowWidth));
@@ -49,29 +46,41 @@ console.log()
   return (
     <main>
       <section className="movies">
-        <SearchForm localKeyValue ={localKeyValue} checked={checkboxStatusMovies} changeCheckbox={changeCheckbox} onGetMovies={onGetMovies} />
+        <SearchForm
+          localKeyValue={localKeyValue}
+          checked={checkboxStatusMovies}
+          changeCheckbox={changeCheckbox}
+          onGetMovies={onGetMovies}
+        />
         <TextMessage isOpen={textOpen} message={message} />
         <Preloader isOpen={isOpen} />
         <MoviesCardList>
-          {(filterMovies != null || filterMovies !== undefined || filterMovies.length !== 0) && filterMovies.slice(0, numberFilmsMore).map((film) => {
-            const isSaved = savedMovies.some((savedMovie) => {
-              return savedMovie.movieId === film.id
-                ? (film._id = savedMovie._id)
-                : "";
-            });
-            return (
-              <MoviesCard film={film} key={film.id} images={film.image.url || film.image}>
-                <button
-                  onClick={() => handleClickSaveButton(film)}
-                  type="button"
-                  aria-label="сохранить"
-                  className={`card__button card__button${isSaved && "_active"}`}
+          {filterMovies &&
+            filterMovies.slice(0, numberFilmsMore).map((film) => {
+              const isSaved = savedMovies.some((savedMovie) => {
+                return savedMovie.movieId === film.id
+                  ? (film._id = savedMovie._id)
+                  : "";
+              });
+              return (
+                <MoviesCard
+                  film={film}
+                  key={film.id}
+                  images={film.image.url || film.image}
                 >
-                  {`${isSaved ? "" : "Сохранить"}`}
-                </button>
-              </MoviesCard>
-            );
-          })}
+                  <button
+                    onClick={() => handleClickSaveButton(film)}
+                    type="button"
+                    aria-label="сохранить"
+                    className={`card__button card__button${
+                      isSaved && "_active"
+                    }`}
+                  >
+                    {`${isSaved ? "" : "Сохранить"}`}
+                  </button>
+                </MoviesCard>
+              );
+            })}
         </MoviesCardList>
         <div
           className={`movies__more movies__more_${buttonMoviesMore && "open"}`}

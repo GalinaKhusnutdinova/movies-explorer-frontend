@@ -38,7 +38,7 @@ export default function SavedMovies({
       <TextMessage isOpen={textOpen} message={message} />
       <Preloader isOpen={isOpen} />
       <MoviesCardList name="saved">
-        {(filmsSaveFilter >=1 || filmsSaveFilter !== null) && filmsSaveFilter.map((film) => {
+        {(filmsSaveFilter >=1 || filmsSaveFilter !== null || filmsSaveFilter !== undefined) && filmsSaveFilter.map((film) => {
           return (  
             <MoviesCard
               film={film}
