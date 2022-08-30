@@ -85,7 +85,8 @@ export default function Movies({
         <div
           className={`movies__more movies__more_${buttonMoviesMore && "open"}`}
         >
-          {numberFilmsMore < filterMovies && (
+          {filterMovies &&
+          (numberFilmsMore < filterMovies.length && (
             <button
               onClick={clickMoreFilms}
               type="button"
@@ -93,7 +94,17 @@ export default function Movies({
             >
               Ещё
             </button>
-          )}
+          ))
+        }
+          {/* {numberFilmsMore < filterMovies.length && (
+            <button
+              onClick={clickMoreFilms}
+              type="button"
+              className="movies__button"
+            >
+              Ещё
+            </button>
+          )} */}
         </div>
       </section>
     </main>
