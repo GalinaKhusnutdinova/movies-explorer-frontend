@@ -20,11 +20,23 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute.jsx";
 
 function App() {
-  const inintialSearchResult = localStorage.getItem("filterMoviesCheckbox")
-    ? JSON.parse(localStorage.getItem("filterMoviesCheckbox"))
-    : !localStorage.getItem("filmsFilter")
-    ? []
-    : JSON.parse(localStorage.getItem("filmsFilter"));
+  // const inintialSearchResult = localStorage.getItem("filterMoviesCheckbox")
+  //   ? JSON.parse(localStorage.getItem("filterMoviesCheckbox"))
+  //   : !localStorage.getItem("filmsFilter")
+  //   ? []
+  //   : JSON.parse(localStorage.getItem("filmsFilter"));
+  let inintialSearchResult = localStorage.getItem("filmsFilter")
+    ? JSON.parse(localStorage.getItem("filmsFilter"))
+    : [];
+
+  if (
+    localStorage.getItem("filterMoviesCheckbox") &&
+    JSON.parse(localStorage.getItem("filterMoviesCheckbox"))
+  ) {
+    inintialSearchResult = inintialSearchResult.filter((item) => {
+      return item.duration <= 40;
+    });
+  }
 
   const [isHeaderAuthOpen, setIsHeaderAuthOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
@@ -380,7 +392,6 @@ function App() {
     history.push("/signin");
     localStorage.clear();
   };
-  
 
   useEffect(() => {
     if (loggedIn) {
