@@ -2,15 +2,27 @@ import React from "react";
 import FromBlock from "../FormBlock/FormBlock";
 import "./Register.css";
 import { useFormWithValidation } from "../../hooks/form";
+import { useState } from "react";
 
 export default function Register(props) {
-  const { values, handleChange, errors } = useFormWithValidation();
+  const { values, handleChange, errors, isValid } = useFormWithValidation();
+  const [disabled, setDisabled] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     let { name, email, password } = values;
     props.handleRegister({ name, email, password });
   };
+
+  function handleChange2(e) {
+    handleChange(e);
+
+    if (isValid) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }
 
   return (
     <section className="register">
@@ -24,6 +36,8 @@ export default function Register(props) {
         handleSubmit={handleSubmit}
         isOpen={props.isOpen}
         message={props.message}
+        disabled={disabled}
+        isValid={disabled ? "" : "non-disabled"}
       >
         <label className="register__label">
           Имя
@@ -36,7 +50,7 @@ export default function Register(props) {
             minLength="2"
             maxLength="40"
             value={values.name || ""}
-            onChange={handleChange}
+            onChange={handleChange2}
           />
           <span className="register__message">{errors.name}</span>
         </label>
@@ -45,13 +59,13 @@ export default function Register(props) {
           <input
             className="register__item"
             name="email"
-            type="text"
+            type="email"
             id="email"
             required
             minLength="2"
             maxLength="40"
             value={values.email || ""}
-            onChange={handleChange}
+            onChange={handleChange2}
           />
           <span className="register__message">{errors.email}</span>
         </label>
@@ -64,9 +78,9 @@ export default function Register(props) {
             id="password"
             required
             minLength="2"
-            maxLength="200"
+            maxLength="20"
             value={values.password || ""}
-            onChange={handleChange}
+            onChange={handleChange2}
           />
           <span className="register__message">{errors.password}</span>
         </label>

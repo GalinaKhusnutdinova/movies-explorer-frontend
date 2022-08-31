@@ -4,6 +4,7 @@ import Header from "../Header/Header";
 import TextMessage from "../TextMessage/TextMessage";
 
 export default function FormBlock(props) {
+  console.log(props.isValid)
   return (
     <>
       <Header name="register" />
@@ -25,8 +26,9 @@ export default function FormBlock(props) {
           />
 
           <button
+            disabled={props.disabled}
             type="submit"
-            className={`register__save-button register__save-button_${props.formName}`}
+            className={`register__save-button register__save-button_${props.formName} register__save-button_${props.isValid}`}
           >
             {props.buttonText}
           </button>
