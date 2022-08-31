@@ -40,6 +40,7 @@
 	max-height: 200px;
 	overflow: hidden;
 	object-fit: cover;
+	min-height: 200px;
 }
 
 .card__button {
@@ -71,6 +72,9 @@
 	.card__img {
 		max-height: 190px;
 	}
+	.card__img {
+		min-height: 190px;
+	}
 }
 
 @media screen and (max-width: 500px) {
@@ -92,5 +96,8 @@
 
 	.card__button {
 		margin: 12px auto;
+	}
+	.card__img {
+		min-height: 168px;
 	}
 }

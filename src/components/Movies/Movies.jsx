@@ -57,6 +57,8 @@ export default function Movies({
         <MoviesCardList>
           {filterMovies &&
             filterMovies.slice(0, numberFilmsMore).map((film) => {
+              console.log('film.id:', film.id)
+              console.log('film:', film)
               const isSaved = savedMovies.some((savedMovie) => {
                 return savedMovie.movieId === film.id
                   ? (film._id = savedMovie._id)

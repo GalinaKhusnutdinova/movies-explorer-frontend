@@ -25,14 +25,26 @@ function App() {
   //   : !localStorage.getItem("filmsFilter")
   //   ? []
   //   : JSON.parse(localStorage.getItem("filmsFilter"));
+  const [filterMoviesCheckbox, setFilterMoviesCheckbox] = useState([]);
   let inintialSearchResult = localStorage.getItem("filmsFilter")
     ? JSON.parse(localStorage.getItem("filmsFilter"))
     : [];
 
   if (
     localStorage.getItem("filterMoviesCheckbox") &&
-    JSON.parse(localStorage.getItem("filterMoviesCheckbox"))
+    JSON.parse(localStorage.getItem("filterMoviesCheckbox")) &&
+    JSON.parse(localStorage.getItem("checkboxStatusMovies"))
   ) {
+    console.log("inintialSearchResult: ", inintialSearchResult);
+    console.log(
+      'JSON.parse(localStorage.getItem("filterMoviesCheckbox")): ',
+      JSON.parse(localStorage.getItem("filterMoviesCheckbox"))
+    );
+    console.log(
+      "checkboxStatusMovies: ",
+      JSON.parse(localStorage.getItem("checkboxStatusMovies"))
+    );
+
     inintialSearchResult = inintialSearchResult.filter((item) => {
       return item.duration <= 40;
     });
@@ -65,6 +77,9 @@ function App() {
   );
   const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] =
     useState(false);
+
+  console.log("inintialSearchResult: ", inintialSearchResult);
+  console.log("filterMoviesCheckbox: ", filterMoviesCheckbox);
 
   console.log("loggedIn", loggedIn);
   useEffect(() => {
@@ -201,25 +216,30 @@ function App() {
     const filmsFilter = movies.filter((item) => {
       return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
     });
+    console.log("filmsFilter:", filmsFilter);
 
     if (filmsFilter.length === 0) {
       setTextOpen("true");
       setFilterMessage("«Ничего не найдено»");
+    } else {
+      let serialObj = JSON.stringify(filmsFilter); //сериализуем obj
+    localStorage.setItem("filmsFilter", serialObj); //запишем его в хранилище по ключу
     }
+
     if (filmsFilter.length > 3) {
       setButtonMoviesMore(true);
     }
 
     setIsPreloaderOpen(false);
 
-    let serialObj = JSON.stringify(filmsFilter); //сериализуем obj
-    localStorage.setItem("filmsFilter", serialObj); //запишем его в хранилище по ключу
+    
     let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарсим его обратно объект
 
     if (checkboxStatusMovies) {
-      setFilterMovies(filterMoviesCheckbox());
+      filterMoviesCheckboxClick();
+      setFilterMovies(filterMoviesCheckbox);
 
-      let serialObj = JSON.stringify(filterMoviesCheckbox()); //сериализуем obj
+      let serialObj = JSON.stringify(filterMoviesCheckbox); //сериализуем obj
       localStorage.setItem("filterMoviesCheckbox", serialObj); //запишем его в хранилище по ключу
     } else {
       setFilterMovies(returnObj);
@@ -230,21 +250,28 @@ function App() {
     localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
     let returnObj = localStorage.getItem("checkboxStatusMovies") === "true"; //спарсим его обратно объект
     setCheckboxStatusMovies(returnObj);
+    filterMoviesCheckboxClick();
+    console.log(checkboxStatusMovies);
+    
 
     if (!checkboxStatusMovies) {
-      setFilterMovies(filterMoviesCheckbox());
+      setFilterMovies(filterMoviesCheckbox);
+      let serialObj = JSON.stringify(filterMoviesCheckbox); //сериализуем obj
+      localStorage.setItem("filterMoviesCheckbox", serialObj); //запишем его в хранилище по ключу
     } else {
       setFilterMovies(JSON.parse(localStorage.getItem("filmsFilter")));
     }
   }
 
-  function filterMoviesCheckbox() {
+  function filterMoviesCheckboxClick() {
     const localFilterMovies = JSON.parse(localStorage.getItem("filmsFilter"));
 
-    if (localFilterMovies !== null || localFilterMovies >= 1)
-      return JSON.parse(localStorage.getItem("filmsFilter")).filter((item) => {
-        return item.duration <= 40;
-      });
+    setFilterMoviesCheckbox(
+      (localFilterMovies !== null || localFilterMovies >= 1) &&
+        JSON.parse(localStorage.getItem("filmsFilter")).filter((item) => {
+          return item.duration <= 40;
+        })
+    );
   }
 
   function handleUpdateUser(data) {
@@ -388,6 +415,8 @@ function App() {
     localStorage.removeItem("token");
     setLoggedIn(false);
     setUserData(null);
+    setFilterMovies([]);
+    setCheckboxStatusMovies(false)
     localStorage.removeItem("movies");
     history.push("/signin");
     localStorage.clear();
