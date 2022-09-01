@@ -55,13 +55,13 @@ function App() {
   const [buttonMoviesMore, setButtonMoviesMore] = useState(false);
   const [savedMovies, setSavedMovies] = useState([]);
   const [filmsSaveFilter, setFilmsSaveFilter] = useState([]);
-  const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] = useState(false);
+  const [checkboxStatusSavedMovies, setCheckboxStatusSavedMovies] =
+    useState(false);
   const [checkboxStatusMovies, setCheckboxStatusMovies] = useState(
     localStorage.getItem("checkboxStatusMovies")
       ? JSON.parse(localStorage.getItem("checkboxStatusMovies"))
       : ""
   );
- 
 
   useEffect(() => {
     const localLoginStatus = localStorage.getItem("loggedIn");
@@ -159,11 +159,16 @@ function App() {
       moviesApi
         .getMovies()
         .then((data) => {
+          console.log('data',  data)
           localStorage.setItem("keyValueSaveMovies", keyValue); //запишем его в хранилище по ключу
           let serialObj = JSON.stringify(data); //сериализуем obj]
           localStorage.setItem("movies", serialObj); //запишем его в хранилище по ключу
           let returnObj = JSON.parse(localStorage.getItem("movies")); //спарсим его обратно объект
           setMovies(returnObj);
+          console.log('returnObj', returnObj)
+          // setMovies(data)
+          
+
         })
         .catch((err) => {
           console.log("Error: ", err);
@@ -172,32 +177,23 @@ function App() {
             "«Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз»"
           );
           setIsPreloaderOpen(false);
-        });
+        })
+        .finally(()=> {
+          handleFilterFilm(keyValue);
+        })
 
-      handleFilterFilm(keyValue);
+      // handleFilterFilm(keyValue);
     }
-  }
-
-  function handleGetSaveMovies() {
-    mainApi
-      .getSaveMovies()
-      .then((data) => {
-        let serialObj = JSON.stringify(data); //сериализуем obj
-        localStorage.setItem("saveMovies", serialObj); //запишем его в хранилище по ключу
-        let returnObj = JSON.parse(localStorage.getItem("saveMovies")); //спарсим его обратно объект
-        setSavedMovies(returnObj);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }
 
   function handleFilterFilm(keyValue) {
     setFilterMessageSaved();
+
     const filmsFilter = movies.filter((item) => {
       return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
     });
     console.log("filmsFilter:", filmsFilter);
+    console.log("keyValue", keyValue);
 
     if (filmsFilter.length === 0) {
       setTextOpen("true");
@@ -214,7 +210,7 @@ function App() {
     setIsPreloaderOpen(false);
 
     let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарсим его обратно объект
-    
+
     if (checkboxStatusMovies) {
       filterMoviesCheckboxClick();
       setFilterMovies(filterMoviesCheckbox);
@@ -228,10 +224,10 @@ function App() {
   }
 
   function changeCheckbox({ target: { checked } }) {
+
     localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
-    // let returnObj = localStorage.getItem("checkboxStatusMovies") === "true"; //спарсим его обратно объект
+
     setCheckboxStatusMovies(checked);
-    // filterMoviesCheckboxClick();
 
     console.log(checkboxStatusMovies);
 
@@ -253,6 +249,20 @@ function App() {
           return item.duration <= 40;
         })
     );
+  }
+
+  function handleGetSaveMovies() {
+    mainApi
+      .getSaveMovies()
+      .then((data) => {
+        let serialObj = JSON.stringify(data); //сериализуем obj
+        localStorage.setItem("saveMovies", serialObj); //запишем его в хранилище по ключу
+        let returnObj = JSON.parse(localStorage.getItem("saveMovies")); //спарсим его обратно объект
+        setSavedMovies(returnObj);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   function handleUpdateUser(data) {
