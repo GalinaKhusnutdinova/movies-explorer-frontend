@@ -159,16 +159,11 @@ function App() {
       moviesApi
         .getMovies()
         .then((data) => {
-          console.log('data',  data)
           localStorage.setItem("keyValueSaveMovies", keyValue); //запишем его в хранилище по ключу
           let serialObj = JSON.stringify(data); //сериализуем obj]
           localStorage.setItem("movies", serialObj); //запишем его в хранилище по ключу
           let returnObj = JSON.parse(localStorage.getItem("movies")); //спарсим его обратно объект
           setMovies(returnObj);
-          console.log('returnObj', returnObj)
-          // setMovies(data)
-          
-
         })
         .catch((err) => {
           console.log("Error: ", err);
@@ -177,12 +172,9 @@ function App() {
             "«Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз»"
           );
           setIsPreloaderOpen(false);
-        })
-        .finally(()=> {
-          handleFilterFilm(keyValue);
-        })
+        });
 
-      // handleFilterFilm(keyValue);
+      handleFilterFilm(keyValue);
     }
   }
 
