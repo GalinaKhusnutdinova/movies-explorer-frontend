@@ -6,7 +6,8 @@ import { useState } from "react";
 
 export default function Register(props) {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(!isValid);
+  console.log(isValid);
 
   const handleSubmit = (e) => {
     e.preventDefault();

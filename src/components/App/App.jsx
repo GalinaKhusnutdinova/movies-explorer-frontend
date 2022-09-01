@@ -223,18 +223,19 @@ function App() {
       localStorage.setItem("filterMoviesCheckbox", serialObj); //запишем его в хранилище по ключу
     } else {
       setFilterMovies(returnObj);
+      filterMoviesCheckboxClick();
     }
   }
 
   function changeCheckbox({ target: { checked } }) {
     localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
-    let returnObj = localStorage.getItem("checkboxStatusMovies") === "true"; //спарсим его обратно объект
-    setCheckboxStatusMovies(returnObj);
-    filterMoviesCheckboxClick();
+    // let returnObj = localStorage.getItem("checkboxStatusMovies") === "true"; //спарсим его обратно объект
+    setCheckboxStatusMovies(checked);
+    // filterMoviesCheckboxClick();
 
     console.log(checkboxStatusMovies);
 
-    if (!checkboxStatusMovies) {
+    if (checked) {
       setFilterMovies(filterMoviesCheckbox);
       let serialObj = JSON.stringify(filterMoviesCheckbox); //сериализуем obj
       localStorage.setItem("filterMoviesCheckbox", serialObj); //запишем его в хранилище по ключу

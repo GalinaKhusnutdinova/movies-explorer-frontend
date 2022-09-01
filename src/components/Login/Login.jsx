@@ -6,7 +6,17 @@ import { useState } from "react";
 
 export default function Login(props) {
   const { values, handleChange, errors, isValid } = useFormWithValidation();
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(!isValid);
+ 
+  function handleChange2(e) {
+    handleChange(e);
+  
+    if (isValid) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,15 +27,6 @@ export default function Login(props) {
     });
   };
 
-  function handleChange2(e) {
-    handleChange(e);
-
-    if (isValid) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }
   return (
     <section className="register">
       <FromBlock
