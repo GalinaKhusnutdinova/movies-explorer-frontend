@@ -100,6 +100,7 @@ function App() {
   }
 
   function filterSavedMoviesClick(keyValue) {
+    // handleGetSaveMovies()
     updateFilterMessage();
     const filmsSaveFilter = savedMovies.filter((item) => {
       return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
@@ -153,9 +154,28 @@ function App() {
     : JSON.parse(localStorage.getItem("saveMovies"))
 
     setFilmsSaveFilter((localFilterSave !== null || localFilterSave >= 1) && (localStorage.getItem("filmsSaveFilter")
-    ? JSON.parse(localStorage.getItem("filmsSaveFilter"))
-    : JSON.parse(localStorage.getItem("saveMovies"))).filter((item) => item.duration <= 40
+    ? JSON.parse(localStorage.getItem("filmsSaveFilter")).filter((item) => item.duration <= 40)
+    : JSON.parse(localStorage.getItem("saveMovies")).filter((item) => item.duration <= 40)
     ));
+  }
+
+  function handleGetSaveMovies() {
+    mainApi
+      .getSaveMovies()
+      .then((data) => {
+        // setSavedMovies(data);
+        saveMoviesLocal(data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function saveMoviesLocal(data) {
+    let serialObj = JSON.stringify(data); //сериализуем obj
+    localStorage.setItem("saveMovies", serialObj); //запишем его в хранилище по ключу
+    let returnObj = JSON.parse(localStorage.getItem("saveMovies")); //спарсим его обратно объект
+    setSavedMovies(returnObj);
   }
 
   useEffect(() => {
@@ -201,6 +221,7 @@ function App() {
   }
 
   function handleFilterFilm(keyValue) {
+    
     setFilterMessageSaved();
 if (movies) {
   const filmsFilter = movies.filter((item) => {
@@ -265,24 +286,7 @@ let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарси�
     );
   }
 
-  function handleGetSaveMovies() {
-    mainApi
-      .getSaveMovies()
-      .then((data) => {
-        setSavedMovies(data);
-        saveMoviesLocal(data)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  function saveMoviesLocal(data) {
-    let serialObj = JSON.stringify(data); //сериализуем obj
-    localStorage.setItem("saveMovies", serialObj); //запишем его в хранилище по ключу
-    let returnObj = JSON.parse(localStorage.getItem("saveMovies")); //спарсим его обратно объект
-    setSavedMovies(returnObj);
-  }
+ 
 
   function handleUpdateUser(data) {
     if (data.name === currentUser.name && data.email === currentUser.email) {

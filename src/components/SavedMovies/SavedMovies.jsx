@@ -18,8 +18,13 @@ export default function SavedMovies({
   changeCheckboxSaved,
 }) {
 
+  console.log('savedMovies', savedMovies)
+
   useEffect(()=> {
     localStorage.removeItem("filmsSaveFilter");
+    let serialObj = JSON.stringify(savedMovies); //сериализуем obj
+    localStorage.setItem("saveMovies", serialObj); //запишем его в хранилище по ключу
+
   }, [])
 
   
