@@ -18,6 +18,12 @@ export default function SavedMovies({
   changeCheckboxSaved,
 }) {
 
+  useEffect(()=> {
+    localStorage.removeItem("filmsSaveFilter");
+  }, [])
+
+  
+
   function handleDelete(film) {
     handleMoviesDelete(film);
   }

@@ -147,6 +147,7 @@ function App() {
 
   function filterSavedMoviesCheckbox() {
     
+    
     const localFilterSave = localStorage.getItem("filmsSaveFilter")
     ? JSON.parse(localStorage.getItem("filmsSaveFilter"))
     : JSON.parse(localStorage.getItem("saveMovies"))
@@ -268,14 +269,19 @@ let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарси�
     mainApi
       .getSaveMovies()
       .then((data) => {
-        let serialObj = JSON.stringify(data); //сериализуем obj
-        localStorage.setItem("saveMovies", serialObj); //запишем его в хранилище по ключу
-        let returnObj = JSON.parse(localStorage.getItem("saveMovies")); //спарсим его обратно объект
-        setSavedMovies(returnObj);
+        setSavedMovies(data);
+        saveMoviesLocal(data)
       })
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  function saveMoviesLocal(data) {
+    let serialObj = JSON.stringify(data); //сериализуем obj
+    localStorage.setItem("saveMovies", serialObj); //запишем его в хранилище по ключу
+    let returnObj = JSON.parse(localStorage.getItem("saveMovies")); //спарсим его обратно объект
+    setSavedMovies(returnObj);
   }
 
   function handleUpdateUser(data) {
