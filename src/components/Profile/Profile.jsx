@@ -1,11 +1,13 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { CurrentUserContext } from "../../context/CurrentUserContext";
+import {regexUrl}  from '../../utils/constants';
 
 import "./Profile.css";
 
 export default function Profile(props) {
   const currentUser = React.useContext(CurrentUserContext);
+
 
   // После загрузки текущего пользователя из API
   // его данные будут использованы в управляемых компонентах.
@@ -22,11 +24,15 @@ export default function Profile(props) {
 
   function handleChangeName(e) {
     setName(e.target.value);
-    setDisabled(true);
+
+    (e.target.value.length >= 2) ? setDisabled(true) : setDisabled(false)
+    
   }
   function handleChangeEmail(e) {
     setEmail(e.target.value);
-    setDisabled(true);
+
+    (e.target.value.match(regexUrl)) ? setDisabled(true) : setDisabled(false) 
+    
   }
 
   function handleSubmit(e) {
@@ -67,7 +73,7 @@ export default function Profile(props) {
             <input
               className="profile__item"
               name="E-mail"
-              type="text"
+              type="email"
               id="email"
               required
               minLength="2"

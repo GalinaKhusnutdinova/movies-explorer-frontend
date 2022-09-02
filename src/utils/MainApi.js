@@ -1,3 +1,5 @@
+import {BASE_URL} from '../utils/constants'
+
 class MainApi {
   constructor(settings) {
     this._settings = settings;
@@ -74,12 +76,14 @@ class MainApi {
   }
 }
 
-const baseUrl = `${window.location.protocol}${
-  process.env.REACT_APP_API_URL || "//localhost:3000"
-}`;
+// const baseUrl = `${window.location.protocol}${
+//   process.env.REACT_APP_API_URL || "//localhost:3000"
+// }`;
+
+
 
 export const mainApi = new MainApi({
-  baseUrl: baseUrl,
+  baseUrl: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

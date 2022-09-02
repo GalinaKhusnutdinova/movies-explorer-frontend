@@ -4,7 +4,7 @@ import Header from "../Header/Header";
 import TextMessage from "../TextMessage/TextMessage";
 
 export default function FormBlock(props) {
-  console.log(props.isValid)
+  console.log(props.isValid);
   return (
     <>
       <Header name="register" />

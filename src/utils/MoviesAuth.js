@@ -1,6 +1,4 @@
-export const BASE_URL = `${window.location.protocol}${
-  process.env.REACT_APP_API_URL || "//localhost:3000"
-}`;
+import {BASE_URL} from '../utils/constants'
 
 export const register = (name, email, password) => {
   return fetch(`${BASE_URL}/signup`, {

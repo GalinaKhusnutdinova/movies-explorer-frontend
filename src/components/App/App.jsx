@@ -432,7 +432,7 @@ let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарси�
     setFilterMovies([]);
     setCheckboxStatusMovies(false);
     localStorage.removeItem("movies");
-    history.push("/signin");
+    history.push("/");
     localStorage.clear();
   };
 
