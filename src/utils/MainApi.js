@@ -53,7 +53,7 @@ class MainApi {
         trailerLink: data.trailerLink || "нет",
         nameRU: data.nameRU || "нет",
         nameEN: data.nameEN || "нет",
-        thumbnail: data.image.formats.thumbnail.url,
+        thumbnail: data.image.formats.thumbnail.url || data.thumbnail,
         movieId: data.id,
       }),
     }).then(this._checkResponse);

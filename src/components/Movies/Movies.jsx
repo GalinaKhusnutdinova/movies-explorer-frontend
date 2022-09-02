@@ -32,7 +32,7 @@ export default function Movies({
   );
 
   useEffect(() => {
-    setMovies(JSON.parse(localStorage.getItem("saveMovies")));
+    setMovies(JSON.parse(localStorage.getItem("Movies")));
   }, [setMovies]);
 
   function clickMoreFilms() {
@@ -57,8 +57,6 @@ export default function Movies({
         <MoviesCardList>
           {filterMovies &&
             filterMovies.slice(0, numberFilmsMore).map((film) => {
-              // console.log('film.id:', film.id)
-              // console.log('film:', film)
               const isSaved = savedMovies.some((savedMovie) => {
                 return savedMovie.movieId === film.id
                   ? (film._id = savedMovie._id)
@@ -67,7 +65,7 @@ export default function Movies({
               return (
                 <MoviesCard
                   film={film}
-                  key={film.id}
+                  key={film.id || film.movieId}
                   images={film.image.url || film.image}
                 >
                   <button
@@ -90,6 +88,7 @@ export default function Movies({
           {filterMovies &&
           (numberFilmsMore < filterMovies.length && (
             <button
+              key={1}
               onClick={clickMoreFilms}
               type="button"
               className="movies__button"
@@ -98,15 +97,6 @@ export default function Movies({
             </button>
           ))
         }
-          {/* {numberFilmsMore < filterMovies.length && (
-            <button
-              onClick={clickMoreFilms}
-              type="button"
-              className="movies__button"
-            >
-              Ещё
-            </button>
-          )} */}
         </div>
       </section>
     </main>

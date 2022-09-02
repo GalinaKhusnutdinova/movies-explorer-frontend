@@ -20,7 +20,7 @@ import { CurrentUserContext } from "../../context/CurrentUserContext";
 import ProtectedRoute from "../ProtectedRoute.jsx";
 
 function App() {
-  let inintialSearchResult = localStorage.getItem("filmsFilter")
+  let inintialSearchResult = JSON.parse(localStorage.getItem("filmsFilter"))
     ? JSON.parse(localStorage.getItem("filmsFilter"))
     : [];
 
@@ -118,33 +118,51 @@ function App() {
     localStorage.setItem("filmsSaveFilter", serialObj); //запишем его в хранилище по ключу
     let returnObj = JSON.parse(localStorage.getItem("filmsSaveFilter")); //спарсим его обратно объект
     if (checkboxStatusSavedMovies) {
-      setFilmsSaveFilter(filterSavedMoviesCheckbox());
+      filterSavedMoviesCheckbox()
+      // setFilmsSaveFilter(filterSavedMoviesCheckbox());
     } else {
       setFilmsSaveFilter(returnObj);
+      // filterSavedMoviesCheckbox()
     }
   }
 
   function changeCheckboxSaved({ target: { checked } }) {
     setCheckboxStatusSavedMovies(checked);
+    console.log(checked)
 
-    if (!checkboxStatusSavedMovies) {
-      setFilmsSaveFilter(filterSavedMoviesCheckbox());
+    if (checked) {
+      // setFilmsSaveFilter(filterSavedMoviesCheckbox());
+      filterSavedMoviesCheckbox()
     } else {
-      setFilmsSaveFilter(JSON.parse(localStorage.getItem("filmsSaveFilter")));
+      if(localStorage.getItem("filmsSaveFilter")){
+        setFilmsSaveFilter(JSON.parse(localStorage.getItem("filmsSaveFilter")));
+
+      }else {
+        setFilmsSaveFilter(JSON.parse(localStorage.getItem("saveMovies")));
+      }
+      
     }
   }
+  
 
   function filterSavedMoviesCheckbox() {
-    const localFilterSave = JSON.parse(localStorage.getItem("filmsSaveFilter"));
+    
+    const localFilterSave = localStorage.getItem("filmsSaveFilter")
+    ? JSON.parse(localStorage.getItem("filmsSaveFilter"))
+    : JSON.parse(localStorage.getItem("saveMovies"))
 
-    if (localFilterSave !== null || localFilterSave >= 1) {
-      return JSON.parse(localStorage.getItem("filmsSaveFilter")).filter(
-        (item) => {
-          return item.duration <= 40;
-        }
-      );
-    }
+    setFilmsSaveFilter((localFilterSave !== null || localFilterSave >= 1) && (localStorage.getItem("filmsSaveFilter")
+    ? JSON.parse(localStorage.getItem("filmsSaveFilter"))
+    : JSON.parse(localStorage.getItem("saveMovies"))).filter((item) => item.duration <= 40
+    ));
   }
+
+  useEffect(() => {
+    if (localStorage.getItem("keyValueSaveMovies")) {
+      handleFilterFilm(localStorage.getItem("keyValueSaveMovies"));
+    }
+    console.log('JSON.parse(localStorage.getItem("filmsFilter"))   useEffect', JSON.parse(localStorage.getItem("filmsFilter")))
+  }, [movies]);
 
   function handleGetMovies(keyValue) {
     setIsPreloaderOpen(true);
@@ -159,11 +177,14 @@ function App() {
       moviesApi
         .getMovies()
         .then((data) => {
-          localStorage.setItem("keyValueSaveMovies", keyValue); //запишем его в хранилище по ключу
-          let serialObj = JSON.stringify(data); //сериализуем obj]
-          localStorage.setItem("movies", serialObj); //запишем его в хранилище по ключу
-          let returnObj = JSON.parse(localStorage.getItem("movies")); //спарсим его обратно объект
-          setMovies(returnObj);
+          if (data) {
+            localStorage.setItem("keyValueSaveMovies", keyValue); //запишем его в хранилище по ключу
+            let serialObj = JSON.stringify(data); //сериализуем obj]
+            localStorage.setItem("movies", serialObj); //запишем его в хранилище по ключу
+            let returnObj = JSON.parse(localStorage.getItem("movies")); //спарсим его обратно объект
+            setMovies(returnObj !== null ? returnObj : []);
+          }
+         
         })
         .catch((err) => {
           console.log("Error: ", err);
@@ -180,29 +201,30 @@ function App() {
 
   function handleFilterFilm(keyValue) {
     setFilterMessageSaved();
+if (movies) {
+  const filmsFilter = movies.filter((item) => {
+    return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
+  });
+  console.log("filmsFilter:", filmsFilter);
+  console.log("keyValue", keyValue);
 
-    const filmsFilter = movies.filter((item) => {
-      return item.nameRU.toLowerCase().includes(keyValue.toLowerCase());
-    });
-    console.log("filmsFilter:", filmsFilter);
-    console.log("keyValue", keyValue);
+  if (filmsFilter.length === 0) {
+    setTextOpen("true");
+    setFilterMessage("«Ничего не найдено»");
+  } else {
+    let serialObj = JSON.stringify(filmsFilter); //сериализуем obj
+    localStorage.setItem("filmsFilter", serialObj); //запишем его в хранилище по ключу
+  }
 
-    if (filmsFilter.length === 0) {
-      setTextOpen("true");
-      setFilterMessage("«Ничего не найдено»");
-    } else {
-      let serialObj = JSON.stringify(filmsFilter); //сериализуем obj
-      localStorage.setItem("filmsFilter", serialObj); //запишем его в хранилище по ключу
-    }
+  if (filmsFilter.length > 3) {
+    setButtonMoviesMore(true);
+  }
 
-    if (filmsFilter.length > 3) {
-      setButtonMoviesMore(true);
-    }
+  setIsPreloaderOpen(false);
 
-    setIsPreloaderOpen(false);
-
-    let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарсим его обратно объект
-
+}
+let returnObj = JSON.parse(localStorage.getItem("filmsFilter")); //спарсим его обратно объект
+    
     if (checkboxStatusMovies) {
       filterMoviesCheckboxClick();
       setFilterMovies(filterMoviesCheckbox);
@@ -216,7 +238,6 @@ function App() {
   }
 
   function changeCheckbox({ target: { checked } }) {
-
     localStorage.setItem("checkboxStatusMovies", checked); //запишем его в хранилище по ключу
 
     setCheckboxStatusMovies(checked);
