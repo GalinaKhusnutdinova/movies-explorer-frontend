@@ -2,17 +2,18 @@ import React from "react";
 
 import "./FilterCheckbox.css";
 
-export default function FilterCheckbox() {
+export default function FilterCheckbox(props) {
   return (
     <>
       <input
+        onChange={props.changeCheckbox}
+        checked={props.checked}
         type="checkbox"
-        class="custom-checkbox"
-        id="happy"
-        name="happy"
-        value="yes"
+        className="custom-checkbox"
+        id="short"
+        name="short"
       ></input>
-      <label for="happy"></label>
+      <label htmlFor="short"></label>
       <p className="custom-checkbox__title">Короткометражки</p>
     </>
   );

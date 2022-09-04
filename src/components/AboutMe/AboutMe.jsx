@@ -33,20 +33,6 @@ export default function AboutMe() {
         </div>
         <img className="about-me__img" src={photo} alt="фотот создателя сайта" />
       </article>
-      {/* <p className="about-me__profil">Портфолио</p>
-      <ul className="about-me__websites">
-        <li className="about-me__site">
-          <a className="about-me__site-link" href="https://github.com/GalinaKhusnutdinova/how-to-learn" target="_blank" rel="noreferrer" >Статичный сайт <span>&#8599;</span></a>
-          <div className="about-me__link-border"></div>
-        </li>
-        <li className="about-me__site">
-          <a className="about-me__site-link" href="https://galinakhusnutdinova.github.io/russian-travel/index.html" target="_blank" rel="noreferrer" >Адаптивный сайт <span>&#8599;</span></a>
-          <div className="about-me__link-border"></div>
-        </li>
-        <li className="bout-me__site">
-          <a className="about-me__site-link" href="http://khusnutdinova.student.nomoredomains.xyz" target="_blank" rel="noreferrer" >Одностраничное приложение <span>&#8599;</span></a>	
-        </li>
-      </ul> */}
     </section>
   );
 }

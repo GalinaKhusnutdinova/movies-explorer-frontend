@@ -6,6 +6,7 @@
     /* margin-bottom: 70px; */
     /* align-content: center; */
     align-items: center;
+    flex-direction: column;
 }
 .register__container {
     max-width: 396px;
@@ -54,9 +55,7 @@
 }
 
 .register__item:focus {
-    
-    border-bottom: 1px solid #2BE080;;
-    
+    border-bottom: 1px solid #2be080;
 }
 
 .register__message {
@@ -73,16 +72,20 @@
     margin: 0;
     margin: 134px auto 16px;
     border-style: none;
-    background-color: #2be080;
     border-radius: 3px;
     width: 100%;
     max-width: 396px;
     height: 45px;
-    color: #ffffff;
+    color: #C2C2C2;
+    background-color: #F8F8F8;;
     text-align: center;
     font-weight: 500;
     font-size: 14px;
     line-height: 17px;
+}
+.register__save-button_non-disabled {
+    color: #ffffff;
+    background-color: #2be080;
 }
 
 .register__save-button_login {

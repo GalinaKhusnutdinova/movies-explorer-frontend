@@ -4,6 +4,7 @@ import './Footer.css';
 export default function Footer() {
   return (
     <footer className='footer'>
+      <div className='footer__container'>
       <p className='footer__title'>Учебный проект Яндекс.Практикум х BeatFilm.</p>
       <div className="footer__border"></div>
       <div className='footer__info'>
@@ -19,6 +20,7 @@ export default function Footer() {
           <a className="footer__link" href="." target="_blank" rel="noreferrer" >Facebook</a>
           </li>
         </ul>
+      </div>
       </div>
     </footer>
   )

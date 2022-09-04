@@ -1,17 +1,24 @@
 import React from "react";
-import "./MoviesCard.css"
+import "./MoviesCard.css";
 
-import movies from "../../images/movies.png"
+export default function MoviesCard({ film, children, images }) {
+  let filmUrl = `https://api.nomoreparties.co${images || ""}`;
 
-export default function MoviesCard(props) {
   return (
     <div className="card">
       <div className="card__info">
-        <h3 className="card__name">В погоне за Бенкси</h3>
-        <p className="card__time">27 минут</p>
+        <h3 className="card__name">{film.nameRU || film.nameEN}</h3>
+        <p className="card__time">{`${film.duration} минут`}</p>
       </div>
-			<img className="card__img" src={movies} alt="обложка фильма" />
-			{props.children}
+      <a
+        href={film.trailerLink}
+        target="_blank"
+        rel="noreferrer"
+        className="card__link"
+      >
+        <img className="card__img" src={filmUrl} alt="обложка фильма" />
+      </a>
+      {children}
     </div>
   );
 }

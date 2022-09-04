@@ -1,0 +1,27 @@
+.message__open {
+    display: block;
+}
+
+/* .message__open_register {
+} */
+
+.message__close {
+    display: none;
+}
+
+.message__title {
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    color: black;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.message__title_register, .message__title_login {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    color: red;
+}

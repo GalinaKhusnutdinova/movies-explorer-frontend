@@ -1,9 +1,27 @@
 import React from "react";
-import FilterCheckbox from "../FilterCheckbox/FilterCheckbox"
+import { useState } from "react";
+import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
 import "./SearchForm.css";
 
-export default function SearchForm() {
+export default function SearchForm(props) {
+  const [keyValue, setKeyValue] = useState(props.localKeyValue ? props.localKeyValue : '');
+
+  function handleChangeName(e) {
+    setKeyValue(e.target.value);
+  }
+
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+
+    if (props.filtetrue === "true") {
+      props.filterSavedMoviesClick(keyValue);
+    } else {
+      // Передаём значения управляемых компонентов во внешний обработчик
+      props.onGetMovies(keyValue);
+    }
+  }
   return (
     <div className="search-form">
       <form method="get" name="search" className="search-form__form">
@@ -12,18 +30,26 @@ export default function SearchForm() {
             name="movies"
             type="text"
             id="movies"
-						placeholder="Фильм"
+            placeholder="Фильм"
             required
             minLength="2"
             maxLength="200"
             className="search-form__input"
+            value={keyValue}
+            onChange={handleChangeName}
           ></input>
         </label>
-				<button type="submit" className="search-form__button">Поиск</button>
+        <button
+          onClick={handleSubmit}
+          type="submit"
+          className="search-form__button"
+        >
+          Поиск
+        </button>
       </form>
-			<div className="search-form__filter">
-				<FilterCheckbox />
-			</div>
+      <div className="search-form__filter">
+        <FilterCheckbox checked={props.checked} changeCheckbox={props.changeCheckbox} />
+      </div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
-.header__info_menu-auth {
+/* .header__info_menu-auth {
 	gap: 20px;
 	color: #000000;
-}
-.link-grey {
+} */
+/* .link-grey {
 	display: flex;
 	min-width: 100px;
 	min-height: 32px;
@@ -15,14 +15,17 @@
 	align-items: center;
 	margin-left: 30px;
 	font-size: 14px;
-}
+} */
+/* .header__link_auth-main {
+	color: #000;
+} */
 
-.header__link_auth {
+/* .header__link_auth {
 	font-weight: 400;
 	color: #000;
 	font-size: 14px;
 	line-height: 18px;
-}
+} */
 
 .header__link_auth:focus {
 	font-weight: 500;
