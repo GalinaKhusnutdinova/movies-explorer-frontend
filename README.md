@@ -4,11 +4,11 @@
 Стек: JavaScript 
 
 ## Ссылка на репозиторий
-[Cсылка на репозиторий][https://github.com/GalinaKhusnutdinova/movies-explorer-frontend]
+[Cсылка на репозиторий](https://github.com/GalinaKhusnutdinova/movies-explorer-frontend)
 
-[Cсылка на макет][https://www.figma.com/file/runEHLw16OecwgQyVAX1d1/Diploma-(Copy)?node-id=891%3A3857]
+[Cсылка на макет](https://www.figma.com/file/runEHLw16OecwgQyVAX1d1/Diploma-(Copy)?node-id=891%3A3857)
 
-[Cсылка на на пулл реквест][https://github.com/GalinaKhusnutdinova/movies-explorer-frontend/pull/2]
+[Cсылка на на пулл реквест](https://github.com/GalinaKhusnutdinova/movies-explorer-frontend/pull/2)
 
 
 ## Директории
