@@ -3,12 +3,15 @@
 Фронтен для проекта Movies-lives, написанный на react.js.
 Стек: JavaScript 
 
-## Ссылка на репозиторий
+
+## Приложение по поиску фильмов
+## Ссылка приложения
+[movies-lives](https://movies-lives.nomoredomains.xyz)
+
+## Ссылки
 [Cсылка на репозиторий](https://github.com/GalinaKhusnutdinova/movies-explorer-frontend)
 
 [Cсылка на макет](https://www.figma.com/file/runEHLw16OecwgQyVAX1d1/Diploma-(Copy)?node-id=891%3A3857)
-
-[Cсылка на на пулл реквест](https://github.com/GalinaKhusnutdinova/movies-explorer-frontend/pull/2)
 
 
 ## Директории
@@ -20,13 +23,10 @@
 директория images/ с картинками, / 3.38
 директория components/ с JS и CSS-файлами компонентов, / 3.38
 директория fonts/ со шрифтами. / 3.38
-## Cсылка на пул-реквест
-
-[Cсылка](https://github.com/GalinaKhusnutdinova/movies-explorer-frontend/pull/2/)
 
 ## Cсылка на сайт, размещенный на Яндекс.Облаке:
 
-[домен](movies-lives.nomoredomains.xyz/)
+[домен](https://movies-lives.nomoredomains.xyz/)
 
 # Getting Started with Create React App
 
